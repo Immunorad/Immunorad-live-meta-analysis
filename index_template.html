@@ -51,8 +51,8 @@
     // Must match your R filename logic
     function slugifyTumor(t) {
       t = t.toLowerCase().trim();
-      t = t.replace("NSCLC", "nsclc");
-      t = t.replace("SCLC", "sclc");
+      t = t.replace("non-small-cell lung", "nsclc");
+      t = t.replace("small-cell lung", "sclc");
       t = t.replace("head and neck", "head_and_neck");
       t = t.replace("cutaneous squamous-cell carcinoma", "cutaneous_squamous_cell_carcinoma");
       t = t.replace(/[^a-z0-9]+/g, "_");
