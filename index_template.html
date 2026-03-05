@@ -1,1 +1,124 @@
 <p><b>Last updated:</b> {{LAST_UPDATED}}</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Immunorad Living Meta-analysis</title>
+</head>
+
+<body style="font-family: Arial; max-width: 980px; margin: auto; line-height: 1.4;">
+  <h1>Immunorad Living Meta-analysis</h1>
+
+  <p>
+    <b>Tumor type:</b>
+    <select id="tumorSelect"></select>
+  </p>
+
+  <p style="color:#444;">
+    Alleen tumortypes met beschikbare data worden getoond.
+  </p>
+
+  <h2 id="tumorTitle"></h2>
+
+  <h3>Overall Survival</h3>
+  <p><a id="osPdf" href="#" target="_blank">Download OS PDF</a></p>
+  <img id="osImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+
+  <h3>Progression-Free Survival</h3>
+  <p><a id="pfsPdf" href="#" target="_blank">Download PFS PDF</a></p>
+  <img id="pfsImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+
+  <h3>Event-Free Survival</h3>
+  <p><a id="efsPdf" href="#" target="_blank">Download EFS PDF</a></p>
+  <img id="efsImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+
+  <script>
+    // Map your internal tumour names to pretty labels
+    const tumorPretty = {
+      "glioblastoma": "Glioblastoma",
+      "head and neck": "Head and neck",
+      "nasopharyngeal": "Nasopharyngeal",
+      "non-small-cell lung": "NSCLC",
+      "small-cell lung": "SCLC",
+      "esophageal": "Esophageal",
+      "pancreatic": "Pancreatic",
+      "cervical": "Cervical",
+      "prostate": "Prostate",
+      "sarcoma": "Sarcoma",
+      "cutaneous squamous-cell carcinoma": "Cutaneous squamous-cell carcinoma"
+    };
+
+    // Must match your R filename logic
+    function slugifyTumor(t) {
+      t = t.toLowerCase().trim();
+      t = t.replace("non-small-cell lung", "nsclc");
+      t = t.replace("small-cell lung", "sclc");
+      t = t.replace("head and neck", "head_and_neck");
+      t = t.replace("cutaneous squamous-cell carcinoma", "cutaneous_squamous_cell_carcinoma");
+      t = t.replace(/[^a-z0-9]+/g, "_");
+      t = t.replace(/^_+|_+$/g, "");
+      return t;
+    }
+
+    function setTumor(t) {
+      const pretty = tumorPretty[t] || t;
+      document.getElementById("tumorTitle").innerText = pretty;
+
+      const s = slugifyTumor(t);
+
+      // Images/PDFs (these files must exist in /figures)
+      document.getElementById("osImg").src  = `figures/OS_${s}.png`;
+      document.getElementById("pfsImg").src = `figures/PFS_${s}.png`;
+      document.getElementById("efsImg").src = `figures/EFS_${s}.png`;
+
+      document.getElementById("osPdf").href  = `figures/OS_${s}.pdf`;
+      document.getElementById("pfsPdf").href = `figures/PFS_${s}.pdf`;
+      document.getElementById("efsPdf").href = `figures/EFS_${s}.pdf`;
+    }
+
+    // Hide an endpoint if image doesn't exist
+    function hideIfMissing(imgId, linkId, headerText) {
+      const img = document.getElementById(imgId);
+      img.onerror = () => {
+        img.style.display = "none";
+        document.getElementById(linkId).style.display = "none";
+      };
+      img.onload = () => {
+        img.style.display = "block";
+        document.getElementById(linkId).style.display = "inline";
+      };
+    }
+
+    hideIfMissing("osImg", "osPdf");
+    hideIfMissing("pfsImg", "pfsPdf");
+    hideIfMissing("efsImg", "efsPdf");
+
+    // Load available tumours produced by R
+    fetch("results/available_tumors.json")
+      .then(r => r.json())
+      .then(avail => {
+        const tumors = avail.ANY || [];
+        const select = document.getElementById("tumorSelect");
+
+        // Populate dropdown
+        tumors.forEach(t => {
+          const opt = document.createElement("option");
+          opt.value = t;
+          opt.textContent = tumorPretty[t] || t;
+          select.appendChild(opt);
+        });
+
+        // Default selection
+        if (tumors.length > 0) {
+          select.value = tumors[0];
+          setTumor(select.value);
+        }
+
+        select.addEventListener("change", () => setTumor(select.value));
+      })
+      .catch(err => {
+        console.error("Could not load results/available_tumors.json", err);
+      });
+  </script>
+</body>
+</html>
