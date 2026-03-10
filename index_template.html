@@ -1,124 +1,223 @@
-<p><b>Last updated:</b> {{LAST_UPDATED}}</p>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Immunorad Living Meta-analysis</title>
+<meta charset="utf-8">
+<title>Immunorad Living Meta-analysis</title>
+
+<style>
+body {
+  font-family: Arial;
+  max-width: 980px;
+  margin: auto;
+  line-height: 1.5;
+}
+
+img {
+  width: 100%;
+  max-width: 900px;
+  border: 1px solid #ddd;
+}
+
+hr {
+  margin-top: 40px;
+}
+
+.footer {
+  font-size: 0.9em;
+  color: #555;
+}
+</style>
+
 </head>
 
-<body style="font-family: Arial; max-width: 980px; margin: auto; line-height: 1.4;">
-  <h1>Immunorad Living Meta-analysis</h1>
+<body>
 
-  <p>
-    <b>Tumor type:</b>
-    <select id="tumorSelect"></select>
-  </p>
+<h1>Immunorad Living Meta-analysis</h1>
 
-  <p style="color:#444;">
-    Only tumor types with available trials will be shown.
-  </p>
+<p><b>Last updated:</b> {{LAST_UPDATED}}</p>
 
-  <h2 id="tumorTitle"></h2>
+<p>
+<b>Tumor type:</b>
+<select id="tumorSelect"></select>
+</p>
 
-  <h3>Overall Survival</h3>
-  <p><a id="osPdf" href="#" target="_blank">Download OS PDF</a></p>
-  <img id="osImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+<p style="color:#444;">
+Only tumor types with available trials are shown.
+</p>
 
-  <h3>Progression-Free Survival</h3>
-  <p><a id="pfsPdf" href="#" target="_blank">Download PFS PDF</a></p>
-  <img id="pfsImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+<h2 id="tumorTitle"></h2>
 
-  <h3>Event-Free Survival</h3>
-  <p><a id="efsPdf" href="#" target="_blank">Download EFS PDF</a></p>
-  <img id="efsImg" src="" style="width: 100%; max-width: 900px; border: 1px solid #ddd;">
+<h3>Overall Survival</h3>
+<p><a id="osPdf" href="#" target="_blank">Download OS PDF</a></p>
+<img id="osImg" src="">
 
-  <script>
-    // Map your internal tumour names to pretty labels
-    const tumorPretty = {
-      "glioblastoma": "Glioblastoma",
-      "head and neck": "Head and neck",
-      "nasopharyngeal": "Nasopharyngeal",
-      "non-small-cell lung": "NSCLC",
-      "small-cell lung": "SCLC",
-      "esophageal": "Esophageal",
-      "pancreatic": "Pancreatic",
-      "cervical": "Cervical",
-      "prostate": "Prostate",
-      "sarcoma": "Sarcoma",
-      "cutaneous squamous-cell carcinoma": "Cutaneous squamous-cell carcinoma"
-    };
+<h3>Progression-Free Survival</h3>
+<p><a id="pfsPdf" href="#" target="_blank">Download PFS PDF</a></p>
+<img id="pfsImg" src="">
 
-    // Must match your R filename logic
-    function slugifyTumor(t) {
-      t = t.toLowerCase().trim();
-      t = t.replace("non-small-cell lung", "nsclc");
-      t = t.replace("small-cell lung", "sclc");
-      t = t.replace("head and neck", "head_and_neck");
-      t = t.replace("cutaneous squamous-cell carcinoma", "cutaneous_squamous_cell_carcinoma");
-      t = t.replace(/[^a-z0-9]+/g, "_");
-      t = t.replace(/^_+|_+$/g, "");
-      return t;
-    }
+<h3>Event-Free Survival</h3>
+<p><a id="efsPdf" href="#" target="_blank">Download EFS PDF</a></p>
+<img id="efsImg" src="">
 
-    function setTumor(t) {
-      const pretty = tumorPretty[t] || t;
-      document.getElementById("tumorTitle").innerText = pretty;
+<script>
 
-      const s = slugifyTumor(t);
+// Pretty tumor labels
+const tumorPretty = {
+  "all": "All tumors",
+  "glioblastoma": "Glioblastoma",
+  "head and neck": "Head and neck",
+  "nasopharyngeal": "Nasopharyngeal",
+  "non-small-cell lung": "NSCLC",
+  "small-cell lung": "SCLC",
+  "esophageal": "Esophageal",
+  "pancreatic": "Pancreatic",
+  "cervical": "Cervical",
+  "prostate": "Prostate",
+  "sarcoma": "Sarcoma",
+  "cutaneous squamous-cell carcinoma": "Cutaneous squamous-cell carcinoma"
+};
 
-      // Images/PDFs (these files must exist in /figures)
-      document.getElementById("osImg").src  = `figures/OS_${s}.png`;
-      document.getElementById("pfsImg").src = `figures/PFS_${s}.png`;
-      document.getElementById("efsImg").src = `figures/EFS_${s}.png`;
+// Must match R naming logic
+function slugifyTumor(t) {
 
-      document.getElementById("osPdf").href  = `figures/OS_${s}.pdf`;
-      document.getElementById("pfsPdf").href = `figures/PFS_${s}.pdf`;
-      document.getElementById("efsPdf").href = `figures/EFS_${s}.pdf`;
-    }
+  t = t.toLowerCase().trim();
 
-    // Hide an endpoint if image doesn't exist
-    function hideIfMissing(imgId, linkId, headerText) {
-      const img = document.getElementById(imgId);
-      img.onerror = () => {
-        img.style.display = "none";
-        document.getElementById(linkId).style.display = "none";
-      };
-      img.onload = () => {
-        img.style.display = "block";
-        document.getElementById(linkId).style.display = "inline";
-      };
-    }
+  t = t.replace("non-small-cell lung", "nsclc");
+  t = t.replace("small-cell lung", "sclc");
+  t = t.replace("head and neck", "head_and_neck");
+  t = t.replace("cutaneous squamous-cell carcinoma", "cutaneous_squamous_cell_carcinoma");
 
-    hideIfMissing("osImg", "osPdf");
-    hideIfMissing("pfsImg", "pfsPdf");
-    hideIfMissing("efsImg", "efsPdf");
+  t = t.replace(/[^a-z0-9]+/g, "_");
+  t = t.replace(/^_+|_+$/g, "");
 
-    // Load available tumours produced by R
-    fetch("results/available_tumors.json")
-      .then(r => r.json())
-      .then(avail => {
-        const tumors = avail.ANY || [];
-        const select = document.getElementById("tumorSelect");
+  return t;
+}
 
-        // Populate dropdown
-        tumors.forEach(t => {
-          const opt = document.createElement("option");
-          opt.value = t;
-          opt.textContent = tumorPretty[t] || t;
-          select.appendChild(opt);
-        });
 
-        // Default selection
-        if (tumors.length > 0) {
-          select.value = tumors[0];
-          setTumor(select.value);
-        }
+// Set tumor plots
+function setTumor(t) {
 
-        select.addEventListener("change", () => setTumor(select.value));
-      })
-      .catch(err => {
-        console.error("Could not load results/available_tumors.json", err);
-      });
-  </script>
+  const pretty = tumorPretty[t] || t;
+
+  document.getElementById("tumorTitle").innerText = pretty;
+
+  if (t === "all") {
+
+    document.getElementById("osImg").src  = "figures/Forest_OS_by_tumor_type.png";
+    document.getElementById("pfsImg").src = "figures/Forest_PFS_by_tumor_type.png";
+    document.getElementById("efsImg").src = "figures/Forest_EFS_by_tumor_type.png";
+
+    document.getElementById("osPdf").href  = "figures/Forest_OS_by_tumor_type.pdf";
+    document.getElementById("pfsPdf").href = "figures/Forest_PFS_by_tumor_type.pdf";
+    document.getElementById("efsPdf").href = "figures/Forest_EFS_by_tumor_type.pdf";
+
+  } else {
+
+    const s = slugifyTumor(t);
+
+    document.getElementById("osImg").src  = `figures/OS_${s}.png`;
+    document.getElementById("pfsImg").src = `figures/PFS_${s}.png`;
+    document.getElementById("efsImg").src = `figures/EFS_${s}.png`;
+
+    document.getElementById("osPdf").href  = `figures/OS_${s}.pdf`;
+    document.getElementById("pfsPdf").href = `figures/PFS_${s}.pdf`;
+    document.getElementById("efsPdf").href = `figures/EFS_${s}.pdf`;
+  }
+
+}
+
+
+// Hide section if figure does not exist
+function hideIfMissing(imgId, linkId) {
+
+  const img = document.getElementById(imgId);
+  const link = document.getElementById(linkId);
+
+  img.onerror = () => {
+    img.style.display = "none";
+    link.style.display = "none";
+  };
+
+  img.onload = () => {
+    img.style.display = "block";
+    link.style.display = "inline";
+  };
+}
+
+hideIfMissing("osImg", "osPdf");
+hideIfMissing("pfsImg", "pfsPdf");
+hideIfMissing("efsImg", "efsPdf");
+
+
+// Load tumor list generated by R
+fetch("results/available_tumors.json")
+.then(r => r.json())
+.then(avail => {
+
+  const tumors = avail.ANY || [];
+  const select = document.getElementById("tumorSelect");
+
+  // Add "All"
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All tumors";
+  select.appendChild(optAll);
+
+  // Add individual tumors
+  tumors.forEach(t => {
+
+    const opt = document.createElement("option");
+
+    opt.value = t;
+    opt.textContent = tumorPretty[t] || t;
+
+    select.appendChild(opt);
+
+  });
+
+  select.value = "all";
+  setTumor("all");
+
+  select.addEventListener("change", () => {
+    setTumor(select.value);
+  });
+
+})
+.catch(err => {
+
+  console.error("Could not load results/available_tumors.json", err);
+
+});
+
+</script>
+
+
+<hr>
+
+<div class="footer">
+
+<p><b>Disclaimer</b></p>
+
+<p>
+This website presents results from an ongoing living meta-analysis
+evaluating the combination of radiotherapy and immunotherapy across
+multiple solid tumors. The analysis has not yet undergone peer review
+and the results should therefore be considered preliminary.
+</p>
+
+<p>
+The information provided on this website is intended for scientific
+communication only. No rights can be derived from the data or results
+presented here.
+</p>
+
+<p>
+© Tomassen et al. All rights reserved.
+Figures, analyses, and content from this website may not be reproduced,
+distributed, or used without prior written permission from the authors.
+</p>
+
+</div>
+
 </body>
 </html>
