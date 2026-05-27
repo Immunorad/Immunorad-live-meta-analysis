@@ -213,7 +213,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
     <div class="section-hdr"><h2>Key results</h2><span class="sub">Random-effects meta-analysis (REML)</span></div>
 
     <div class="card">
-      <div class="card-title"><span class="card-icon">💉</span>ICIs added to radiotherapy — 35 trials</div>
+      <div class="card-title"><span class="card-icon">💉</span>Immune checkpoint inhibitors (ICIs) added to radiotherapy — 35 trials</div>
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:1.1rem;line-height:1.7;">Trials comparing ICI + radiotherapy versus radiotherapy alone.</p>
       <p class="ep-label">Overall Survival (OS) · n=28 trials</p>
       <div class="chips">
@@ -694,7 +694,6 @@ let currentSgFactor   = null;
 // Factor definitions — exactly matching column names in your R script
 const ioFactors = [
   { col:'Timing',               label:'ICI timing',              cats:'Induction · Concurrent · Adjuvant' },
-  { col:'Solo_adjuvant',        label:'Adjuvant (exclusive)',     cats:'Adjuvant · Non-exclusive adjuvant' },
   { col:'Tumortype_GBM',        label:'Tumor type (GBM)',        cats:'Glioblastoma · Non-glioblastoma' },
   { col:'Chemo',                label:'Radiotherapy type',       cats:'Chemoradiotherapy · Radiotherapy' },
   { col:'RT_Type3',             label:'RT modality',             cats:'SBRT · CRT · Conventional' },
