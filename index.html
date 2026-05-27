@@ -85,7 +85,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
 .fp-controls label { font-size:13px; color:var(--text-muted); white-space:nowrap; }
 .fp-controls select { padding:7px 11px; border:1px solid var(--border-mid); border-radius:6px; font-family:var(--sans); font-size:13px; background:var(--white); color:var(--text); cursor:pointer; outline:none; }
 .fp-controls select:focus { border-color:var(--teal); }
-.fp-filename { margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--text-faint); }
+.fp-filename { display:none; }
 
 /* IMAGE AREA */
 .fp-image-wrap { width:100%; min-height:200px; }
@@ -183,6 +183,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
     <li><button onclick="showSection('timeline')">Timeline</button></li>
     <li><button onclick="showSection('download')">Download</button></li>
     <li><button onclick="showSection('about')">About</button></li>
+    <li><button onclick="showSection('citations')">Citations</button></li>
   </ul>
 </nav>
 
@@ -616,7 +617,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
 
 <script>
 // ── NAVIGATION ──────────────────────────────────────────────────────────────
-const sectionOrder = ['overview','forest','subgroup','prisma','timeline','download','about'];
+const sectionOrder = ['overview','forest','subgroup','prisma','timeline','download','about','citations'];
 function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -810,5 +811,108 @@ buildFactorGrid(ioFactors, 'sgGridIO');
 buildFactorGrid(rtFactors,  'sgGridRT');
 updateForestPlot();
 </script>
+<!-- ══════════════ CITATIONS ══════════════ -->
+<div id="citations" class="section">
+  <div class="page">
+    <div class="section-hdr"><h2>Citations</h2><span class="sub">All 41 included randomized trials</span></div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-icon">💉</span>ICI trials — ICIs added to radiotherapy (35 trials)</div>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Glioblastoma</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;">
+        <li>Omuro A, et al. Radiotherapy combined with nivolumab or temozolomide for newly diagnosed glioblastoma with unmethylated MGMT promoter. <em>Neuro Oncol.</em> 2023;25(1):123–34. [CheckMate-498]</li>
+        <li>Brown NF, et al. Ipilimumab with temozolomide vs. temozolomide alone after surgery and chemoradiotherapy in recently diagnosed glioblastoma. <em>Neuro-Oncology Advances.</em> 2025;7(1). [Ipi-Glio]</li>
+        <li>Sim HW, et al. NUTMEG: A randomized phase II study of nivolumab and temozolomide versus temozolomide alone in newly diagnosed older patients with glioblastoma. <em>Neurooncol Adv.</em> 2023;5(1):vdad124.</li>
+        <li>Cabarrou B, et al. STERIMGLI: Hypo-fractionated stereotactic re-irradiation plus durvalumab vs re-irradiation alone for recurrent glioblastoma. <em>Neuro-Oncology.</em> 2025;27(Suppl_5):v99.</li>
+        <li>Lim M, et al. Phase III trial of chemoradiotherapy with temozolomide plus nivolumab or placebo for newly diagnosed glioblastoma with methylated MGMT promoter. <em>Neuro Oncol.</em> 2022;24(11):1935–49. [CheckMate-548]</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Head and neck cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="6">
+        <li>Tao Y, et al. Long-term results of KEYNOTE-412: pembrolizumab plus CRT for locally advanced HNSCC. <em>J Clin Oncol.</em> 2025;43(16_suppl):6013.</li>
+        <li>Bourhis J, et al. Nivolumab added to cisplatin and radiotherapy versus cisplatin and radiotherapy alone after surgery for HNSCC (NIVOPOST-OP). <em>The Lancet.</em> 2025.</li>
+        <li>Uppaluri R, et al. Neoadjuvant and adjuvant pembrolizumab in locally advanced head and neck cancer (KEYNOTE-689). <em>N Engl J Med.</em> 2025;393(1):37–50.</li>
+        <li>Haddad R, et al. Atezolizumab in high-risk locally advanced squamous cell carcinoma of the head and neck (IMvoke010). <em>JAMA.</em> 2025;333(18):1599–607.</li>
+        <li>Lee NY, et al. Avelumab plus chemoradiotherapy versus chemoradiotherapy alone in locally advanced HNSCC (JAVELIN Head and Neck 100). <em>Lancet Oncol.</em> 2021;22(4):450–62.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Nasopharyngeal cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="11">
+        <li>Liang Y-L, et al. Adjuvant PD-1 blockade with camrelizumab for nasopharyngeal carcinoma (DIPPER). <em>JAMA.</em> 2025;333(18):1589–98.</li>
+        <li>Liu S-L, et al. Neoadjuvant and adjuvant toripalimab for locoregionally advanced nasopharyngeal carcinoma (B2019-014-01). <em>Lancet Oncol.</em> 2024;25(12):1563–75.</li>
+        <li>Liu X, et al. Induction-concurrent chemoradiotherapy with or without sintilimab in locoregionally advanced nasopharyngeal carcinoma (CONTINUUM). <em>The Lancet.</em> 2024;403(10445):2720–31.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">NSCLC</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="14">
+        <li>Zhou Q, et al. Sugemalimab versus placebo after chemoradiotherapy in stage III NSCLC (GEMSTONE-301). <em>Lancet Oncol.</em> 2022;23(2):209–19.</li>
+        <li>Spigel DR, et al. Five-year survival outcomes from PACIFIC: durvalumab after chemoradiotherapy in stage III NSCLC. <em>J Clin Oncol.</em> 2022;40(12):1301–11.</li>
+        <li>Pircher A, et al. KEYNOTE-867: stereotactic body radiotherapy with pembrolizumab for unresected stage I/II NSCLC. <em>Ann Oncol.</em> 2024.</li>
+        <li>Wu Y-L, et al. PACIFIC-5: consolidation durvalumab in unresectable stage III NSCLC after chemoradiotherapy. <em>J Hematol Oncol.</em> 2025;18(1):111.</li>
+        <li>Wang Y, et al. InTRist: induction toripalimab plus chemotherapy followed by concurrent CRT in bulky unresectable stage III NSCLC. <em>J Clin Oncol.</em> 2025;43(16_suppl):8012.</li>
+        <li>Chang JY, et al. Stereotactic ablative radiotherapy with or without immunotherapy for early-stage NSCLC (I-SABR). <em>Lancet.</em> 2023;402(10405):871–81.</li>
+        <li>Bradley JD, et al. Durvalumab with chemoradiotherapy for unresectable stage III NSCLC: final results from PACIFIC-2. <em>Ann Oncol.</em> 2024;9(suppl_3).</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">SCLC</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="21">
+        <li>Higgins KA, et al. Chemoradiation ± atezolizumab in limited-stage SCLC (NRG/Alliance LU005). <em>J Clin Oncol.</em> 2025:JCO-25-01569.</li>
+        <li>Cheng Y, et al. Durvalumab after chemoradiotherapy in limited-stage SCLC (ADRIATIC). <em>N Engl J Med.</em> 2024;391(14):1313–27.</li>
+        <li>Zhang P, et al. Toripalimab consolidation after concurrent CRT in limited-stage SCLC (2019-FXY-243). <em>J Clin Oncol.</em> 2024;42(16_suppl):8098.</li>
+        <li>Peters S, et al. Consolidation nivolumab and ipilimumab versus observation in limited-disease SCLC after chemoradiotherapy (STIMULI). <em>Ann Oncol.</em> 2022;33(1):67–79.</li>
+        <li>Gong Y, et al. AdvanTIG-204: ociperlimab plus tislelizumab and CRT in first-line limited-stage SCLC. <em>JTO Clin Res Rep.</em> 2025;6(11):100911.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Esophageal cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="26">
+        <li>Kelly RJ, et al. Adjuvant nivolumab in resected esophageal or gastroesophageal junction cancer after neoadjuvant CRT (CheckMate-577). <em>J Clin Oncol.</em> 2025;43(16_suppl):4000.</li>
+        <li>Park S, et al. Durvalumab and tremelimumab with definitive chemoradiotherapy for locally advanced esophageal squamous cell carcinoma (ESR-14-10737). <em>Cancer.</em> 2022;128(11):2148–58.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Pancreatic cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="28">
+        <li>Zhu X, et al. SBRT plus pembrolizumab and trametinib versus SBRT plus gemcitabine for locally recurrent pancreatic cancer. <em>Lancet Oncol.</em> 2022;23(3):e105–15.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Cervical cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="29">
+        <li>Lorusso D, et al. Pembrolizumab with chemoradiotherapy for high-risk locally advanced cervical cancer (KEYNOTE-A18). <em>Lancet.</em> 2024;403(10434):1341–50.</li>
+        <li>Monk BJ, et al. Durvalumab versus placebo with chemoradiotherapy for locally advanced cervical cancer (CALLA). <em>Lancet Oncol.</em> 2023;24(12):1334–48.</li>
+        <li>Chargari C, et al. Atezolizumab in combination with chemoradiation in locally advanced cervical cancer (ATEZOLACC). <em>Int J Gynecol Cancer.</em> 2025;35(2).</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Prostate cancer</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="32">
+        <li>Fizazi K, et al. Final analysis of ipilimumab versus placebo following radiotherapy in postdocetaxel metastatic castration-resistant prostate cancer (CA184-043). <em>Eur Urol.</em> 2020;78(6):822–30.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Sarcoma</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="33">
+        <li>Mowery YM, et al. Pembrolizumab, radiotherapy, and surgery versus radiotherapy and surgery for stage III soft tissue sarcoma (SU2C-SARC032). <em>Lancet.</em> 2024;404(10467):2053–64.</li>
+      </ol>
+
+      <p style="font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.75rem;">Cutaneous squamous-cell carcinoma</p>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;margin-bottom:1.25rem;" start="34">
+        <li>Rischin D, et al. Adjuvant cemiplimab or placebo in high-risk cutaneous squamous-cell carcinoma. <em>N Engl J Med.</em> 2025;393(8):774–85.</li>
+        <li>Koyfman SA, et al. KEYNOTE-630: adjuvant pembrolizumab versus placebo for high-risk locally advanced cutaneous SCC. <em>J Clin Oncol.</em> 2025;43(16_suppl):6000.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="card-icon">☢️</span>RT trials — Radiotherapy added to ICIs (6 trials)</div>
+      <ol style="font-size:13px;color:var(--text-muted);line-height:1.9;padding-left:1.5rem;" start="36">
+        <li>Schoenfeld JD, et al. Durvalumab plus tremelimumab alone or in combination with low-dose or hypofractionated radiotherapy in metastatic NSCLC (NCI-2016-01325). <em>Lancet Oncol.</em> 2022;23(2):279–91.</li>
+        <li>Kothari G, et al. Nivolumab and stereotactic ablative body radiation therapy in advanced NSCLC (NIVORAD). <em>Int J Radiat Oncol Biol Phys.</em> 2025.</li>
+        <li>Theelen W, et al. Pembrolizumab with or without radiotherapy for metastatic NSCLC (PEMBRO-RT &amp; MDACC pooled analysis). <em>Lancet Respir Med.</em> 2021;9(5):467–75.</li>
+        <li>Owonikoko TK, et al. Tremelimumab and durvalumab with or without radiation for relapsed SCLC (NCI-2016-00026). <em>J Clin Oncol.</em> 37(15_suppl):8515.</li>
+        <li>Li W, et al. PD-1 inhibitors plus split-course radiotherapy in advanced kidney cancer. <em>J Oncol.</em> 2022;2022:8100323.</li>
+        <li>Spaas M, et al. Checkpoint inhibitors in combination with SBRT in patients with advanced solid tumors (CHEERS). <em>JAMA Oncol.</em> 2023;9(9):1205–13.</li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
