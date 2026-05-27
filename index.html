@@ -325,7 +325,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="display:none;">
       <div class="card-title"><span class="card-icon">📋</span>R filename convention</div>
       <div class="filename-grid">
         <span class="fn">figures/Forest_OS_by_tumor_type.png</span>            <span class="fc">← all tumors, OS (ICI analysis)</span>
@@ -399,7 +399,7 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
     </div>
 
     <!-- Filename reference -->
-    <div class="card">
+    <div class="card" style="display:none;">
       <div class="card-title"><span class="card-icon">📋</span>R filename convention for subgroup plots</div>
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;">
         Save each subgroup forest plot as <code style="font-family:var(--mono);background:var(--surface);padding:1px 5px;border-radius:3px;border:1px solid var(--border);">figures/Subgroup_[ENDPOINT]_[FACTOR].png</code>, where <code style="font-family:var(--mono);background:var(--surface);padding:1px 5px;border-radius:3px;border:1px solid var(--border);">[FACTOR]</code> is the exact column name from your R script:
