@@ -786,8 +786,22 @@ function setAnalysis(mode) {
   document.querySelectorAll('.fp-tab').forEach((t,i) => t.classList.toggle('active',(i===0&&mode==='ici')||(i===1&&mode==='rt')));
   document.getElementById('iciControls').style.display = mode==='ici' ? '' : 'none';
   document.getElementById('rtControls').style.display  = mode==='rt'  ? '' : 'none';
-  // Init
-buildFactorGrid(ioFactors, 'sgGridIO');
+
+  const epSel = document.getElementById('sgEndpoint');
+  if (mode === 'rt') {
+    epSel.innerHTML = '<option value="PFS">Progression-Free Survival (PFS)</option>';
+  } else {
+    epSel.innerHTML = '<option value="OS">Overall Survival (OS)</option><option value="PFS">Progression-Free Survival (PFS)</option>';
+  }
+  document.getElementById('sgFactorsIO').style.display = mode==='io' ? '' : 'none';
+  document.getElementById('sgFactorsRT').style.display = mode==='rt' ? '' : 'none';
+  document.getElementById('sgImg').style.display = 'none';
+  document.getElementById('sgImg').src = '';
+  document.getElementById('sgPlaceholder').style.display = 'block';
+  document.getElementById('sgDownloadLink').style.display = 'none';
+  document.getElementById('sgFilename').textContent = '';
+  updateForestPlot();
+}
 
 function updateForestPlot() {
   let pngSrc, pdfHref, label;
@@ -976,6 +990,7 @@ async function handleSubmit(e) {
     btn.disabled = false;
   }
 }
+buildFactorGrid(ioFactors, 'sgGridIO');
 buildFactorGrid(rtFactors,  'sgGridRT');
 updateForestPlot();
 </script>
