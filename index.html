@@ -25,10 +25,50 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
 .nav-brand { font-family:var(--serif); color:#fff; font-size:18px; display:flex; align-items:center; gap:10px; white-space:nowrap; }
 .live-badge { background:var(--teal); color:#fff; font-family:var(--mono); font-size:10px; padding:2px 8px; border-radius:20px; letter-spacing:0.08em; animation:pulse 2.5s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }
+
+/* Desktop nav */
 .nav-links { display:flex; list-style:none; }
 .nav-links button { background:none; border:none; color:rgba(255,255,255,0.6); font-family:var(--sans); font-size:13px; padding:0 11px; height:60px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:color .15s,border-color .15s; white-space:nowrap; }
 .nav-links button:hover { color:rgba(255,255,255,0.88); }
 .nav-links button.active { color:#fff; border-bottom-color:var(--teal); }
+
+/* Hamburger button */
+.hamburger { display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
+.hamburger span { display:block; width:22px; height:2px; background:#fff; border-radius:2px; transition:all 0.25s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+/* Mobile dropdown menu */
+.mobile-menu {
+  display:none;
+  position:fixed;
+  top:60px; left:0; right:0;
+  background:var(--navy);
+  border-bottom:2px solid var(--teal);
+  z-index:199;
+  flex-direction:column;
+  padding:0.5rem 0;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu button {
+  background:none; border:none;
+  color:rgba(255,255,255,0.7);
+  font-family:var(--sans); font-size:15px;
+  padding:14px 1.5rem;
+  text-align:left; cursor:pointer;
+  border-left:3px solid transparent;
+  transition:all 0.15s;
+  width:100%;
+}
+.mobile-menu button:hover { color:#fff; background:rgba(255,255,255,0.05); }
+.mobile-menu button.active { color:#fff; border-left-color:var(--teal); background:rgba(29,158,117,0.08); }
+
+@media(max-width:720px){
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+}
 
 /* SECTIONS */
 .section { display:none; }
@@ -185,7 +225,22 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
     <li><button onclick="showSection('about')">About</button></li>
     <li><button onclick="showSection('citations')">Citations</button></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile dropdown -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="active" onclick="showSection('overview');closeMenu()">Overview</button>
+  <button onclick="showSection('forest');closeMenu()">Forest plots</button>
+  <button onclick="showSection('subgroup');closeMenu()">Subgroups</button>
+  <button onclick="showSection('prisma');closeMenu()">PRISMA</button>
+  <button onclick="showSection('timeline');closeMenu()">Timeline</button>
+  <button onclick="showSection('download');closeMenu()">Download</button>
+  <button onclick="showSection('about');closeMenu()">About</button>
+  <button onclick="showSection('citations');closeMenu()">Citations</button>
+</div>
 
 <!-- ══════════════ OVERVIEW ══════════════ -->
 <div id="overview" class="section active">
@@ -622,7 +677,20 @@ function showSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.nav-links button').forEach((b,i) => b.classList.toggle('active', sectionOrder[i] === id));
+  document.querySelectorAll('.mobile-menu button').forEach((b,i) => b.classList.toggle('active', sectionOrder[i] === id));
   window.scrollTo(0,0);
+}
+
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn  = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
 }
 
 // ── FOREST PLOT (main) ───────────────────────────────────────────────────────
