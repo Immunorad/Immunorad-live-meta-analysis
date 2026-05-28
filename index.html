@@ -652,15 +652,89 @@ nav { background:var(--navy); padding:0 1.5rem; display:flex; align-items:center
     </div>
     <div class="card">
       <div class="card-title"><span class="card-icon">📬</span>Contact</div>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;">
-        <strong style="color:var(--navy);">Corresponding (review process):</strong><br>
-        Mathijs L. Tomassen, MD — <a href="mailto:m.l.tomassen@amsterdamumc.nl" style="color:var(--teal-dark);">m.l.tomassen@amsterdamumc.nl</a>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.75;margin-bottom:1.25rem;">
+        Questions about the meta-analysis, methodology, or collaboration? Send a message and we will get back to you.
       </p>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:0.75rem;">
-        <strong style="color:var(--navy);">Corresponding (after publication):</strong><br>
-        Peter S.N. van Rossum, MD, PhD — <a href="mailto:p.s.n.vanrossum@amsterdamumc.nl" style="color:var(--teal-dark);">p.s.n.vanrossum@amsterdamumc.nl</a><br>
-        Department of Radiation Oncology, Amsterdam UMC, De Boelelaan 1117, 1081 HV Amsterdam, the Netherlands
-      </p>
+
+      <!-- Contact form via Formspree -->
+      <!-- HOW TO ACTIVATE:
+           1. Go to https://formspree.io and create a free account
+           2. Create a new form and add m.l.tomassen@amsterdamumc.nl
+              and p.s.n.vanrossum@amsterdamumc.nl as notification recipients
+           3. Replace "YOUR_FORMSPREE_ID" below with your form ID (looks like: xpwzgkrb)
+      -->
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST"
+            onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:14px;">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">First name *</label>
+            <input type="text" name="first_name" required placeholder="Jane"
+              style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;transition:border-color .15s;"
+              onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border-mid)'">
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">Last name *</label>
+            <input type="text" name="last_name" required placeholder="Smith"
+              style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;transition:border-color .15s;"
+              onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border-mid)'">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">Email address *</label>
+          <input type="email" name="email" required placeholder="jane.smith@hospital.org"
+            style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;transition:border-color .15s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border-mid)'">
+        </div>
+
+        <div>
+          <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">Affiliation</label>
+          <input type="text" name="affiliation" placeholder="University / Hospital"
+            style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;transition:border-color .15s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border-mid)'">
+        </div>
+
+        <div>
+          <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">Subject *</label>
+          <select name="subject" required
+            style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;cursor:pointer;">
+            <option value="" disabled selected>Select a topic…</option>
+            <option value="Methodology question">Methodology question</option>
+            <option value="Data request">Data request</option>
+            <option value="Collaboration proposal">Collaboration proposal</option>
+            <option value="Missing trial / update suggestion">Missing trial / update suggestion</option>
+            <option value="Press / media">Press / media</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size:12px;font-weight:500;color:var(--text-muted);display:block;margin-bottom:5px;letter-spacing:0.04em;">Message *</label>
+          <textarea name="message" required rows="5" placeholder="Your message…"
+            style="width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:7px;font-family:var(--sans);font-size:14px;background:var(--white);color:var(--text);outline:none;resize:vertical;transition:border-color .15s;"
+            onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border-mid)'"></textarea>
+        </div>
+
+        <!-- Honeypot spam protection -->
+        <input type="text" name="_gotcha" style="display:none">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          <p style="font-size:12px;color:var(--text-faint);">* Required fields. Messages are handled by Mathijs Tomassen and Peter van Rossum.</p>
+          <button type="submit" id="submitBtn"
+            style="padding:10px 24px;background:var(--navy);color:#fff;border:none;border-radius:7px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s;white-space:nowrap;">
+            Send message
+          </button>
+        </div>
+
+        <!-- Success / error messages -->
+        <div id="formSuccess" style="display:none;padding:12px 16px;background:var(--teal-light);border:1px solid rgba(29,158,117,0.3);border-radius:7px;font-size:13px;color:var(--teal-dark);">
+          ✓ Your message has been sent. We will get back to you as soon as possible.
+        </div>
+        <div id="formError" style="display:none;padding:12px 16px;background:var(--red-light);border:1px solid rgba(163,45,45,0.3);border-radius:7px;font-size:13px;color:var(--red);">
+          Something went wrong. Please try again or send an email directly to <a href="mailto:m.l.tomassen@amsterdamumc.nl" style="color:var(--red);">m.l.tomassen@amsterdamumc.nl</a>.
+        </div>
+      </form>
     </div>
     <div class="disclaimer">
       <strong>Disclaimer</strong><br>
@@ -712,8 +786,8 @@ function setAnalysis(mode) {
   document.querySelectorAll('.fp-tab').forEach((t,i) => t.classList.toggle('active',(i===0&&mode==='ici')||(i===1&&mode==='rt')));
   document.getElementById('iciControls').style.display = mode==='ici' ? '' : 'none';
   document.getElementById('rtControls').style.display  = mode==='rt'  ? '' : 'none';
-  updateForestPlot();
-}
+  // Init
+buildFactorGrid(ioFactors, 'sgGridIO');
 
 function updateForestPlot() {
   let pngSrc, pdfHref, label;
@@ -874,8 +948,34 @@ fetch('results/available_tumors.json')
   })
   .catch(() => {});
 
-// Init
-buildFactorGrid(ioFactors, 'sgGridIO');
+// Contact form
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn  = document.getElementById('submitBtn');
+  const form = document.getElementById('contactForm');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.reset();
+      document.getElementById('formSuccess').style.display = 'block';
+      document.getElementById('formError').style.display   = 'none';
+      btn.textContent = 'Sent ✓';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    document.getElementById('formError').style.display   = 'block';
+    document.getElementById('formSuccess').style.display = 'none';
+    btn.textContent = 'Send message';
+    btn.disabled = false;
+  }
+}
 buildFactorGrid(rtFactors,  'sgGridRT');
 updateForestPlot();
 </script>
