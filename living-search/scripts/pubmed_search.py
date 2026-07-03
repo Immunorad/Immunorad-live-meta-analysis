@@ -153,10 +153,9 @@ def normalize_title(title):
     return re.sub(r"[^a-z0-9]+", " ", title.lower()).strip()
 
 
-def esearch_new_pmids(mindate, maxdate):
-    """Run the literal query, restricted to records ADDED to PubMed in
-    the given window (datetype=edat), so we catch newly-indexed records
-    regardless of their publication date."""
+def esearch_new_pmids(mindate, maxdate, datetype="edat"):
+    """Run the literal query, restricted to records added to PubMed (edat)
+    or published (pdat) in the given window, depending on datetype."""
     all_ids = []
     retstart = 0
     retmax = 200
@@ -166,7 +165,7 @@ def esearch_new_pmids(mindate, maxdate):
             {
                 "db": "pubmed",
                 "term": BASE_QUERY,
-                "datetype": "edat",
+                "datetype": datetype,
                 "mindate": mindate,
                 "maxdate": maxdate,
                 "retmode": "json",
@@ -284,14 +283,34 @@ def dedupe_against_archive(records, archive):
 
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Living meta-analysis PubMed search")
+    parser.add_argument(
+        "--since",
+        default=None,
+        help="Override the start date (YYYY-MM-DD). Use for a one-time backfill, "
+        "e.g. --since 2025-01-01. If omitted, uses the last run date from state.json "
+        "(normal weekly incremental behaviour).",
+    )
+    parser.add_argument(
+        "--datetype",
+        default="edat",
+        choices=["edat", "pdat"],
+        help="edat = date added to PubMed (default, best for catching new hits). "
+        "pdat = publication date (use for a one-time backfill, to also catch "
+        "records PubMed indexed late under an older publication date).",
+    )
+    args = parser.parse_args()
+
     state = load_state()
     archive = load_json(ARCHIVE_PATH, [])
 
-    mindate = state["last_run"].replace("-", "/")
+    mindate = (args.since or state["last_run"]).replace("-", "/")
     maxdate = date.today().isoformat().replace("-", "/")
 
-    print(f"Searching PubMed for records added between {mindate} and {maxdate} ...")
-    pmids = esearch_new_pmids(mindate, maxdate)
+    print(f"Searching PubMed ({args.datetype}) for records between {mindate} and {maxdate} ...")
+    pmids = esearch_new_pmids(mindate, maxdate, datetype=args.datetype)
     print(f"esearch returned {len(pmids)} candidate PMIDs.")
 
     records = efetch_details(pmids)
@@ -309,8 +328,12 @@ def main():
     combined_new = existing_new_hits + fresh
     save_json(NEW_HITS_PATH, combined_new)
 
-    state["last_run"] = date.today().isoformat()
-    save_state(state)
+    # Only advance last_run for the normal incremental (edat) mode. A manual
+    # --since backfill on pdat shouldn't change what next Monday's regular
+    # run considers "already covered".
+    if args.since is None:
+        state["last_run"] = date.today().isoformat()
+        save_state(state)
 
     print("Done.")
 

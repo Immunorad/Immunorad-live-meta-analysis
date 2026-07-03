@@ -14,6 +14,8 @@
     --tag-pubmed: #4A4A4A;
     --tag-embase: #2C4E6E;
     --tag-new: #B32424;
+    --tag-included: #1F6F43;
+    --tag-excluded: #8A2E2E;
     --link: #326891;
   }
 
@@ -27,9 +29,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .sans {
-    font-family: Helvetica, Arial, sans-serif;
-  }
+  .sans { font-family: Helvetica, Arial, sans-serif; }
 
   .page {
     max-width: 1000px;
@@ -37,10 +37,10 @@
     padding: 22px 24px 90px;
   }
 
-  /* ---------- Top utility bar ---------- */
   .utility-bar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11px;
     letter-spacing: 0.04em;
@@ -49,230 +49,118 @@
     padding-bottom: 8px;
     border-bottom: 1px solid var(--hair);
   }
-
-  /* ---------- Masthead ---------- */
-  .masthead {
-    text-align: center;
-    padding: 20px 0 8px;
+  .account-status { display: flex; align-items: center; gap: 8px; text-transform: none; letter-spacing: normal; }
+  .account-status button {
+    font-family: Helvetica, Arial, sans-serif; font-size: 11px; background: none;
+    border: 1px solid var(--ink-soft); padding: 3px 9px; cursor: pointer; color: var(--ink);
   }
+  .account-dot { width: 7px; height: 7px; border-radius: 50%; background: #B0AC9C; display: inline-block; }
+  .account-dot.connected { background: var(--tag-included); }
 
+  .masthead { text-align: center; padding: 20px 0 8px; }
   .masthead h1 {
-    margin: 0;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-weight: 700;
-    font-size: clamp(40px, 6.4vw, 72px);
-    letter-spacing: -0.01em;
+    margin: 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 700;
+    font-size: clamp(40px, 6.4vw, 72px); letter-spacing: -0.01em;
   }
-
-  .masthead .motto {
-    font-style: italic;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    margin-top: 4px;
-  }
+  .masthead .motto { font-style: italic; font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 
   .dateline-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--ink);
-    padding: 10px 0 6px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: Helvetica, Arial, sans-serif; font-size: 11px; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--ink); padding: 10px 0 6px;
   }
 
   .rule-thick { border: none; border-top: 3px solid var(--rule); margin: 0 0 2px; }
   .rule-thin  { border: none; border-top: 1px solid var(--rule); margin: 0 0 16px; }
 
-  /* ---------- At a glance (signature digest bar) ---------- */
-  .glance {
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-    padding: 10px 0;
-    margin-bottom: 24px;
-  }
-  .glance-label {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
-  .glance-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .glance-row div {
-    text-align: center;
-    border-right: 1px solid var(--hair);
-  }
+  .glance { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 10px 0; margin-bottom: 24px; }
+  .glance-label { font-family: Helvetica, Arial, sans-serif; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+  .glance-row { display: grid; grid-template-columns: repeat(5, 1fr); }
+  .glance-row div { text-align: center; border-right: 1px solid var(--hair); }
   .glance-row div:last-child { border-right: none; }
-  .glance-row .num {
-    display: block;
-    font-family: Georgia, serif;
-    font-weight: 700;
-    font-size: 24px;
-  }
-  .glance-row .lbl {
-    display: block;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-top: 3px;
-  }
+  .glance-row .num { display: block; font-family: Georgia, serif; font-weight: 700; font-size: 22px; }
+  .glance-row .lbl { display: block; font-family: Helvetica, Arial, sans-serif; font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-top: 3px; }
 
-  /* ---------- Section tabs ---------- */
-  .tabs {
-    display: flex;
-    gap: 26px;
-    margin-bottom: 4px;
-    font-family: Helvetica, Arial, sans-serif;
-  }
+  .tabs { display: flex; gap: 22px; margin-bottom: 4px; font-family: Helvetica, Arial, sans-serif; flex-wrap: wrap; }
   .tab {
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    padding: 6px 0;
-    font-size: 12.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    cursor: pointer;
+    background: none; border: none; border-bottom: 2px solid transparent; padding: 6px 0;
+    font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
   }
-  .tab.active {
-    color: var(--ink);
-    border-bottom-color: var(--tag-new);
-    font-weight: 700;
-  }
+  .tab.active { color: var(--ink); border-bottom-color: var(--tag-new); font-weight: 700; }
 
-  /* ---------- Layout ---------- */
-  .columns {
-    columns: 2;
-    column-gap: 34px;
-    margin-top: 14px;
-  }
-  @media (max-width: 720px) {
-    .columns { columns: 1; }
-  }
+  .columns { columns: 2; column-gap: 34px; margin-top: 14px; }
+  @media (max-width: 720px) { .columns { columns: 1; } }
 
-  .story {
-    break-inside: avoid;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--hair);
-  }
+  .story { break-inside: avoid; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--hair); }
+  .story.decided-included { border-left: 3px solid var(--tag-included); padding-left: 12px; }
+  .story.decided-excluded { border-left: 3px solid var(--tag-excluded); padding-left: 12px; opacity: 0.75; }
 
-  .kicker {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 7px;
-    display: block;
-  }
+  .kicker-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+  .kicker { font-family: Helvetica, Arial, sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .kicker.pubmed { color: var(--tag-pubmed); }
   .kicker.embase { color: var(--tag-embase); }
-  .kicker .new-flag {
-    color: #fff;
-    background: var(--tag-new);
-    padding: 1px 6px;
-    margin-left: 6px;
-    border-radius: 2px;
-    font-size: 9.5px;
+  .kicker .new-flag { color: #fff; background: var(--tag-new); padding: 1px 6px; margin-left: 6px; border-radius: 2px; font-size: 9.5px; }
+  .decision-badge {
+    font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; color: #fff;
   }
+  .decision-badge.included { background: var(--tag-included); }
+  .decision-badge.excluded { background: var(--tag-excluded); }
 
-  .story h2 {
-    font-size: 20px;
-    line-height: 1.28;
-    margin: 0 0 6px;
-    font-weight: 700;
-  }
-
-  .byline {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11.5px;
-    color: var(--ink-soft);
-    margin-bottom: 9px;
-  }
+  .story h2 { font-size: 20px; line-height: 1.28; margin: 0 0 6px; font-weight: 700; }
+  .byline { font-family: Helvetica, Arial, sans-serif; font-size: 11.5px; color: var(--ink-soft); margin-bottom: 9px; }
   .byline em { font-style: italic; }
 
   .abstract {
-    font-size: 14.5px;
-    line-height: 1.58;
-    color: var(--ink);
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 14.5px; line-height: 1.58; color: var(--ink);
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
   }
   .abstract.expanded { display: block; -webkit-line-clamp: unset; }
 
-  .story:first-child .abstract::first-letter {
-    font-size: 2.9em;
-    font-weight: 700;
-    float: left;
-    line-height: 0.85;
-    padding-right: 6px;
-    padding-top: 3px;
-  }
+  .story-meta { margin-top: 8px; font-family: Helvetica, Arial, sans-serif; font-size: 10.5px; color: var(--ink-soft); font-style: italic; }
 
-  .story-actions {
-    margin-top: 10px;
-    display: flex;
-    gap: 4px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11.5px;
-    color: var(--ink-soft);
+  .story-actions { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btn {
+    font-family: Helvetica, Arial, sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em;
+    text-transform: uppercase; padding: 6px 14px; border: 1.5px solid var(--ink); background: var(--paper);
+    color: var(--ink); cursor: pointer;
   }
-  .story-actions button, .story-actions a {
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--ink-soft);
-    cursor: pointer;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11.5px;
-    text-decoration: none;
-  }
-  .story-actions a { color: var(--link); }
-  .story-actions button:hover, .story-actions a:hover { text-decoration: underline; }
-  .story-actions .sep { color: var(--hair); }
+  .btn.include:hover { background: var(--tag-included); border-color: var(--tag-included); color: #fff; }
+  .btn.exclude:hover { background: var(--tag-excluded); border-color: var(--tag-excluded); color: #fff; }
+  .btn.active.include { background: var(--tag-included); border-color: var(--tag-included); color: #fff; }
+  .btn.active.exclude { background: var(--tag-excluded); border-color: var(--tag-excluded); color: #fff; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .link-btn { background: none; border: none; padding: 0; color: var(--ink-soft); cursor: pointer; font-family: Helvetica, Arial, sans-serif; font-size: 11.5px; }
+  .link-btn:hover { text-decoration: underline; }
+  a.link-btn { color: var(--link); }
 
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    font-style: italic;
-    color: var(--ink-soft);
-    border: 1px dashed var(--hair);
-  }
+  .empty-state { text-align: center; padding: 60px 20px; font-style: italic; color: var(--ink-soft); border: 1px dashed var(--hair); }
 
   .archive-week {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 26px 0 4px;
-    padding-top: 12px;
-    border-top: 1px solid var(--ink);
+    font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-soft); margin: 26px 0 4px; padding-top: 12px; border-top: 1px solid var(--ink);
   }
 
   footer {
-    margin-top: 44px;
-    padding-top: 16px;
-    border-top: 3px solid var(--rule);
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11px;
-    color: var(--ink-soft);
-    text-align: center;
-    line-height: 1.6;
+    margin-top: 44px; padding-top: 16px; border-top: 3px solid var(--rule); font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px; color: var(--ink-soft); text-align: center; line-height: 1.6;
+  }
+
+  .settings-overlay {
+    position: fixed; inset: 0; background: rgba(18,18,18,0.5); display: none;
+    align-items: flex-start; justify-content: center; padding-top: 8vh; z-index: 50;
+  }
+  .settings-overlay.open { display: flex; }
+  .settings-panel { background: var(--paper); border: 1px solid var(--ink); max-width: 460px; width: 90%; padding: 24px; font-family: Helvetica, Arial, sans-serif; }
+  .settings-panel h3 { font-family: Georgia, serif; margin-top: 0; }
+  .settings-panel label { display: block; font-size: 12px; margin: 14px 0 4px; font-weight: 700; }
+  .settings-panel input { width: 100%; padding: 8px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; border: 1px solid var(--hair); box-sizing: border-box; }
+  .settings-panel p { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+  .settings-panel .actions { margin-top: 18px; display: flex; gap: 10px; justify-content: flex-end; }
+  .settings-panel .actions button { font-family: Helvetica, Arial, sans-serif; font-size: 12px; padding: 7px 14px; cursor: pointer; }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper);
+    padding: 10px 18px; font-family: Helvetica, Arial, sans-serif; font-size: 12.5px; z-index: 60; display: none;
   }
 </style>
 </head>
@@ -281,7 +169,11 @@
 
   <div class="utility-bar">
     <span id="topLeftDate"></span>
-    <span>Living Meta-Analysis &middot; Radiotherapy &amp; Immunotherapy in Solid Tumors</span>
+    <div class="account-status">
+      <span class="account-dot" id="accountDot"></span>
+      <span id="accountLabel">Not connected</span>
+      <button id="settingsBtn">Screening access</button>
+    </div>
   </div>
 
   <div class="masthead">
@@ -303,44 +195,91 @@
       <div><span class="num" id="tickerIncluded">41</span><span class="lbl">Trials Included</span></div>
       <div><span class="num" id="tickerPatients">15,049</span><span class="lbl">Patients Pooled</span></div>
       <div><span class="num" id="tickerPending">0</span><span class="lbl">Pending Screening</span></div>
+      <div><span class="num" id="tickerScreened">0</span><span class="lbl">Screened This Round</span></div>
       <div><span class="num" id="tickerLastRun">&mdash;</span><span class="lbl">Last Updated</span></div>
     </div>
   </div>
 
   <div class="tabs">
     <button class="tab active" data-tab="new">This Week</button>
+    <button class="tab" data-tab="included">Included</button>
+    <button class="tab" data-tab="excluded">Excluded</button>
     <button class="tab" data-tab="archive">Archive</button>
   </div>
   <div class="dateline-row" style="border:none; padding-top:0;">
     <span id="sourceCounts" class="sans" style="text-transform:none; letter-spacing:normal;"></span>
   </div>
 
-  <div id="newView">
-    <div class="columns" id="newColumns"></div>
-  </div>
-
-  <div id="archiveView" style="display:none;">
-    <div id="archiveList"></div>
-  </div>
+  <div id="newView"><div class="columns" id="newColumns"></div></div>
+  <div id="includedView" style="display:none;"><div class="columns" id="includedColumns"></div></div>
+  <div id="excludedView" style="display:none;"><div class="columns" id="excludedColumns"></div></div>
+  <div id="archiveView" style="display:none;"><div id="archiveList"></div></div>
 
   <footer>
     Sources: PubMed (automated, weekly via GitHub Action) and EMBASE (manually submitted, deduplicated).<br>
-    For screening purposes only &mdash; no automatic inclusion in the meta-analysis.
+    Include/Exclude decisions are shared with the whole team and stored directly in the GitHub repository (<code>living-search/data/decisions.json</code>) for a full audit trail.
   </footer>
 </div>
 
+<div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-panel">
+    <h3>Screening access</h3>
+    <p>
+      Include/Exclude decisions are shared with your whole team by writing them
+      directly to the GitHub repository. To do that from your browser, you need
+      a GitHub <strong>personal access token</strong> with write access to this repo.
+      It's stored only in your own browser (localStorage) and sent only to
+      <code>api.github.com</code> &mdash; never anywhere else.
+    </p>
+    <p>
+      Create one at GitHub &rarr; Settings &rarr; Developer settings &rarr;
+      Personal access tokens &rarr; Fine-grained tokens &rarr; Repository access:
+      only this repo &rarr; Permissions: <strong>Contents: Read and write</strong>.
+    </p>
+    <label for="nameInput">Your name (shown next to your decisions)</label>
+    <input type="text" id="nameInput" placeholder="e.g. Mathijs">
+    <label for="tokenInput">GitHub personal access token</label>
+    <input type="password" id="tokenInput" placeholder="github_pat_...">
+    <div class="actions">
+      <button class="link-btn" id="settingsCancel">Cancel</button>
+      <button class="btn" id="settingsSave" style="text-transform:none; letter-spacing:normal;">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 (function () {
+  const GITHUB_OWNER = 'Immunorad';
+  const GITHUB_REPO = 'Immunorad-live-meta-analysis';
+  const GITHUB_BRANCH = 'main';
+  const DECISIONS_PATH = 'living-search/data/decisions.json';
+
   const els = {
     topLeftDate: document.getElementById('topLeftDate'),
     editionDate: document.getElementById('editionDate'),
     tickerPending: document.getElementById('tickerPending'),
+    tickerScreened: document.getElementById('tickerScreened'),
     tickerLastRun: document.getElementById('tickerLastRun'),
     sourceCounts: document.getElementById('sourceCounts'),
     newColumns: document.getElementById('newColumns'),
+    includedColumns: document.getElementById('includedColumns'),
+    excludedColumns: document.getElementById('excludedColumns'),
     archiveList: document.getElementById('archiveList'),
     newView: document.getElementById('newView'),
+    includedView: document.getElementById('includedView'),
+    excludedView: document.getElementById('excludedView'),
     archiveView: document.getElementById('archiveView'),
+    accountDot: document.getElementById('accountDot'),
+    accountLabel: document.getElementById('accountLabel'),
+    settingsBtn: document.getElementById('settingsBtn'),
+    settingsOverlay: document.getElementById('settingsOverlay'),
+    settingsCancel: document.getElementById('settingsCancel'),
+    settingsSave: document.getElementById('settingsSave'),
+    nameInput: document.getElementById('nameInput'),
+    tokenInput: document.getElementById('tokenInput'),
+    toast: document.getElementById('toast'),
   };
 
   const today = new Date();
@@ -348,17 +287,50 @@
   els.topLeftDate.textContent = dateStr;
   els.editionDate.textContent = dateStr;
 
-  function safeLocalStorageGet(key, fallback) {
-    try {
-      const v = localStorage.getItem(key);
-      return v ? JSON.parse(v) : fallback;
-    } catch (e) { return fallback; }
+  function safeGet(key, fallback) {
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
   }
-  function safeLocalStorageSet(key, value) {
+  function safeSet(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
   }
 
-  const readIds = new Set(safeLocalStorageGet('immunorad_times_read_ids', []));
+  function getAuth() {
+    return { name: safeGet('immunorad_times_name', ''), token: safeGet('immunorad_times_token', '') };
+  }
+  function refreshAccountUI() {
+    const { name, token } = getAuth();
+    if (token) {
+      els.accountDot.classList.add('connected');
+      els.accountLabel.textContent = name ? `Connected as ${name}` : 'Connected';
+    } else {
+      els.accountDot.classList.remove('connected');
+      els.accountLabel.textContent = 'Not connected';
+    }
+  }
+  refreshAccountUI();
+
+  els.settingsBtn.addEventListener('click', () => {
+    const { name, token } = getAuth();
+    els.nameInput.value = name || '';
+    els.tokenInput.value = token || '';
+    els.settingsOverlay.classList.add('open');
+  });
+  els.settingsCancel.addEventListener('click', () => els.settingsOverlay.classList.remove('open'));
+  els.settingsSave.addEventListener('click', () => {
+    safeSet('immunorad_times_name', els.nameInput.value.trim());
+    safeSet('immunorad_times_token', els.tokenInput.value.trim());
+    refreshAccountUI();
+    els.settingsOverlay.classList.remove('open');
+    showToast('Screening access saved on this device.');
+  });
+
+  let toastTimer;
+  function showToast(msg) {
+    els.toast.textContent = msg;
+    els.toast.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { els.toast.style.display = 'none'; }, 3200);
+  }
 
   function recordKey(r) {
     return r.pmid ? ('pmid:' + r.pmid) : (r.doi ? ('doi:' + r.doi.toLowerCase()) : ('title:' + (r.title || '').toLowerCase()));
@@ -369,42 +341,115 @@
       const res = await fetch(path, { cache: 'no-store' });
       if (!res.ok) return null;
       return await res.json();
+    } catch (e) { return null; }
+  }
+
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (m, p1) => String.fromCharCode('0x' + p1)));
+  }
+  function b64DecodeUnicode(str) {
+    return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+  }
+
+  async function githubGetDecisions(token) {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DECISIONS_PATH}?ref=${GITHUB_BRANCH}`;
+    const res = await fetch(url, { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' } });
+    if (!res.ok) throw new Error(`GitHub read failed (${res.status})`);
+    const data = await res.json();
+    const content = data.content ? b64DecodeUnicode(data.content.replace(/\n/g, '')) : '{}';
+    return { decisions: JSON.parse(content || '{}'), sha: data.sha };
+  }
+
+  async function githubSaveDecisions(token, decisions, sha, message) {
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DECISIONS_PATH}`;
+    const body = {
+      message,
+      content: b64EncodeUnicode(JSON.stringify(decisions, null, 2)),
+      sha,
+      branch: GITHUB_BRANCH,
+    };
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`GitHub write failed (${res.status}): ${errText}`);
+    }
+    return res.json();
+  }
+
+  async function setDecision(key, decision) {
+    const { name, token } = getAuth();
+    if (!token) {
+      els.settingsOverlay.classList.add('open');
+      showToast('Add your GitHub access token first to save a decision.');
+      return false;
+    }
+    try {
+      const { decisions, sha } = await githubGetDecisions(token);
+      decisions[key] = { decision, by: name || 'Unknown', date: new Date().toISOString().slice(0, 10) };
+      await githubSaveDecisions(token, decisions, sha, `${decision}: ${key} (by ${name || 'unknown'})`);
+      state.decisions = decisions;
+      showToast(`Saved: marked as ${decision}.`);
+      render();
+      return true;
     } catch (e) {
-      return null;
+      console.error(e);
+      showToast('Could not save — check your access token, or ask a maintainer.');
+      return false;
     }
   }
 
-  function storyCard(r) {
+  const readIds = new Set(safeGet('immunorad_times_read_ids', []));
+  const state = { newHits: [], archive: [], decisions: {}, lastRun: null };
+
+  function storyCard(r, opts) {
+    opts = opts || {};
     const key = recordKey(r);
-    const isUnread = !readIds.has(key);
+    const decisionEntry = state.decisions[key];
+    const decision = decisionEntry ? decisionEntry.decision : null;
+    const isUnread = !readIds.has(key) && !decision;
     const kickerClass = r.source === 'Embase' ? 'embase' : 'pubmed';
     const sourceLabel = r.source === 'Embase' ? 'EMBASE' : 'PUBMED';
+
     const div = document.createElement('div');
-    div.className = 'story';
+    div.className = 'story' + (decision ? ` decided-${decision}` : '');
     div.innerHTML = `
-      <span class="kicker ${kickerClass}">${sourceLabel}${isUnread ? '<span class="new-flag">NEW</span>' : ''}</span>
+      <div class="kicker-row">
+        <span class="kicker ${kickerClass}">${sourceLabel}${isUnread ? '<span class="new-flag">NEW</span>' : ''}</span>
+        ${decision ? `<span class="decision-badge ${decision}">${decision}</span>` : ''}
+      </div>
       <h2>${(r.title || 'Untitled record').replace(/</g, '&lt;')}</h2>
       <div class="byline">By ${(r.authors || 'Unknown authors')} &middot; <em>${r.journal || ''}</em>${r.pubdate ? (', ' + r.pubdate) : ''}</div>
       <div class="abstract">${(r.abstract || 'No abstract available.').replace(/</g, '&lt;')}</div>
       <div class="story-actions">
-        <button data-action="toggle">Read full abstract</button>
-        <span class="sep">&middot;</span>
-        ${r.url ? `<a href="${r.url}" target="_blank" rel="noopener">Open source &rarr;</a><span class="sep">&middot;</span>` : ''}
-        <button data-action="mark-read">${isUnread ? 'Mark as read' : 'Read'}</button>
+        <button class="link-btn" data-action="toggle">Read full abstract</button>
+        ${r.url ? `<a class="link-btn" href="${r.url}" target="_blank" rel="noopener">Open source &rarr;</a>` : ''}
+        ${!opts.readOnly ? `
+          <button class="btn include${decision === 'included' ? ' active' : ''}" data-action="include">Include</button>
+          <button class="btn exclude${decision === 'excluded' ? ' active' : ''}" data-action="exclude">Exclude</button>
+        ` : ''}
       </div>
+      ${decisionEntry ? `<div class="story-meta">Marked ${decisionEntry.decision} by ${decisionEntry.by} on ${decisionEntry.date}</div>` : ''}
     `;
     div.querySelector('[data-action="toggle"]').addEventListener('click', (e) => {
       const abs = div.querySelector('.abstract');
       abs.classList.toggle('expanded');
       e.target.textContent = abs.classList.contains('expanded') ? 'Show less' : 'Read full abstract';
     });
-    const readBtn = div.querySelector('[data-action="mark-read"]');
-    readBtn.addEventListener('click', () => {
-      readIds.add(key);
-      safeLocalStorageSet('immunorad_times_read_ids', Array.from(readIds));
-      const flag = div.querySelector('.new-flag');
-      if (flag) flag.remove();
-      readBtn.textContent = 'Read';
+    const incBtn = div.querySelector('[data-action="include"]');
+    const excBtn = div.querySelector('[data-action="exclude"]');
+    if (incBtn) incBtn.addEventListener('click', async () => {
+      incBtn.disabled = true; excBtn.disabled = true;
+      const ok = await setDecision(key, 'included');
+      if (!ok) { incBtn.disabled = false; excBtn.disabled = false; }
+    });
+    if (excBtn) excBtn.addEventListener('click', async () => {
+      incBtn.disabled = true; excBtn.disabled = true;
+      const ok = await setDecision(key, 'excluded');
+      if (!ok) { incBtn.disabled = false; excBtn.disabled = false; }
     });
     return div;
   }
@@ -426,30 +471,48 @@
     return groups;
   }
 
-  async function init() {
-    const newHits = (await fetchJSON('./data/new_hits.json')) || [];
-    const archive = (await fetchJSON('./data/archive.json')) || [];
-    const state = await fetchJSON('./data/state.json');
+  function render() {
+    const allCandidates = state.newHits;
+    const decided = key => state.decisions[key];
 
-    els.tickerPending.textContent = newHits.length;
-    els.tickerLastRun.textContent = state && state.last_run ? state.last_run : '—';
+    const undecided = allCandidates.filter(r => !decided(recordKey(r)));
+    const included = allCandidates.filter(r => decided(recordKey(r)) && decided(recordKey(r)).decision === 'included');
+    const excluded = allCandidates.filter(r => decided(recordKey(r)) && decided(recordKey(r)).decision === 'excluded');
 
-    const pubmedCount = archive.filter(r => r.source === 'PubMed').length;
-    const embaseCount = archive.filter(r => r.source === 'Embase').length;
+    els.tickerPending.textContent = undecided.length;
+    els.tickerScreened.textContent = included.length + excluded.length;
+    els.tickerLastRun.textContent = state.lastRun || '—';
+
+    const pubmedCount = state.archive.filter(r => r.source === 'PubMed').length;
+    const embaseCount = state.archive.filter(r => r.source === 'Embase').length;
     els.sourceCounts.textContent = `PubMed: ${pubmedCount} in archive · Embase: ${embaseCount} in archive`;
 
     els.newColumns.innerHTML = '';
-    if (newHits.length === 0) {
-      renderEmpty(els.newColumns, 'No new candidate trials this week. Add this file next to a data/ folder containing new_hits.json, archive.json and state.json (see README) once the GitHub Action has run, or submit your EMBASE export for processing.');
+    if (undecided.length === 0) {
+      renderEmpty(els.newColumns, 'No unscreened candidates right now. New PubMed hits appear here automatically every Monday; EMBASE hits appear once submitted.');
     } else {
-      newHits.forEach(r => els.newColumns.appendChild(storyCard(r)));
+      undecided.forEach(r => els.newColumns.appendChild(storyCard(r)));
+    }
+
+    els.includedColumns.innerHTML = '';
+    if (included.length === 0) {
+      renderEmpty(els.includedColumns, 'No trials included yet.');
+    } else {
+      included.forEach(r => els.includedColumns.appendChild(storyCard(r)));
+    }
+
+    els.excludedColumns.innerHTML = '';
+    if (excluded.length === 0) {
+      renderEmpty(els.excludedColumns, 'No trials excluded yet.');
+    } else {
+      excluded.forEach(r => els.excludedColumns.appendChild(storyCard(r)));
     }
 
     els.archiveList.innerHTML = '';
-    if (archive.length === 0) {
+    if (state.archive.length === 0) {
       renderEmpty(els.archiveList, 'The archive is empty so far.');
     } else {
-      const groups = groupByWeek(archive);
+      const groups = groupByWeek(state.archive);
       const weeks = Object.keys(groups).sort().reverse();
       for (const wk of weeks) {
         const label = document.createElement('div');
@@ -458,10 +521,24 @@
         els.archiveList.appendChild(label);
         const cols = document.createElement('div');
         cols.className = 'columns';
-        groups[wk].forEach(r => cols.appendChild(storyCard(r)));
+        groups[wk].forEach(r => cols.appendChild(storyCard(r, { readOnly: true })));
         els.archiveList.appendChild(cols);
       }
     }
+  }
+
+  async function init() {
+    const [newHits, archive, stateFile, decisionsFile] = await Promise.all([
+      fetchJSON('./data/new_hits.json'),
+      fetchJSON('./data/archive.json'),
+      fetchJSON('./data/state.json'),
+      fetchJSON('./data/decisions.json'),
+    ]);
+    state.newHits = newHits || [];
+    state.archive = archive || [];
+    state.lastRun = stateFile && stateFile.last_run ? stateFile.last_run : null;
+    state.decisions = decisionsFile || {};
+    render();
   }
 
   document.querySelectorAll('.tab').forEach(tab => {
@@ -470,6 +547,8 @@
       tab.classList.add('active');
       const which = tab.dataset.tab;
       els.newView.style.display = which === 'new' ? 'block' : 'none';
+      els.includedView.style.display = which === 'included' ? 'block' : 'none';
+      els.excludedView.style.display = which === 'excluded' ? 'block' : 'none';
       els.archiveView.style.display = which === 'archive' ? 'block' : 'none';
     });
   });
