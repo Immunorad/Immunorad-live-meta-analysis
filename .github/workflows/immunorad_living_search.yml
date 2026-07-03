@@ -1,0 +1,33 @@
+name: ImmunoRad living search (weekly PubMed)
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC (07:00/08:00 NL time depending on DST)
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}  # lets you trigger it manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run PubMed search
+        env:
+          NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+        run: python living-search/scripts/pubmed_search.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "living-search-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add living-search/data/
+          git diff --cached --quiet || git commit -m "Weekly PubMed update: $(date -u +%Y-%m-%d)"
+          git push

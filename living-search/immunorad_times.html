@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The ImmunoRad Times</title>
+<style>
+  :root {
+    --paper: #FDFDFB;
+    --ink: #121212;
+    --ink-soft: #55524A;
+    --rule: #121212;
+    --hair: #D9D6CC;
+    --tag-pubmed: #4A4A4A;
+    --tag-embase: #2C4E6E;
+    --tag-new: #B32424;
+    --link: #326891;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sans {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 22px 24px 90px;
+  }
+
+  /* ---------- Top utility bar ---------- */
+  .utility-bar {
+    display: flex;
+    justify-content: space-between;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    text-align: center;
+    padding: 20px 0 8px;
+  }
+
+  .masthead h1 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6.4vw, 72px);
+    letter-spacing: -0.01em;
+  }
+
+  .masthead .motto {
+    font-style: italic;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .dateline-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 10px 0 6px;
+  }
+
+  .rule-thick { border: none; border-top: 3px solid var(--rule); margin: 0 0 2px; }
+  .rule-thin  { border: none; border-top: 1px solid var(--rule); margin: 0 0 16px; }
+
+  /* ---------- At a glance (signature digest bar) ---------- */
+  .glance {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 10px 0;
+    margin-bottom: 24px;
+  }
+  .glance-label {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .glance-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .glance-row div {
+    text-align: center;
+    border-right: 1px solid var(--hair);
+  }
+  .glance-row div:last-child { border-right: none; }
+  .glance-row .num {
+    display: block;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 24px;
+  }
+  .glance-row .lbl {
+    display: block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+
+  /* ---------- Section tabs ---------- */
+  .tabs {
+    display: flex;
+    gap: 26px;
+    margin-bottom: 4px;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  .tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 6px 0;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--tag-new);
+    font-weight: 700;
+  }
+
+  /* ---------- Layout ---------- */
+  .columns {
+    columns: 2;
+    column-gap: 34px;
+    margin-top: 14px;
+  }
+  @media (max-width: 720px) {
+    .columns { columns: 1; }
+  }
+
+  .story {
+    break-inside: avoid;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .kicker {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    display: block;
+  }
+  .kicker.pubmed { color: var(--tag-pubmed); }
+  .kicker.embase { color: var(--tag-embase); }
+  .kicker .new-flag {
+    color: #fff;
+    background: var(--tag-new);
+    padding: 1px 6px;
+    margin-left: 6px;
+    border-radius: 2px;
+    font-size: 9.5px;
+  }
+
+  .story h2 {
+    font-size: 20px;
+    line-height: 1.28;
+    margin: 0 0 6px;
+    font-weight: 700;
+  }
+
+  .byline {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-bottom: 9px;
+  }
+  .byline em { font-style: italic; }
+
+  .abstract {
+    font-size: 14.5px;
+    line-height: 1.58;
+    color: var(--ink);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .abstract.expanded { display: block; -webkit-line-clamp: unset; }
+
+  .story:first-child .abstract::first-letter {
+    font-size: 2.9em;
+    font-weight: 700;
+    float: left;
+    line-height: 0.85;
+    padding-right: 6px;
+    padding-top: 3px;
+  }
+
+  .story-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 4px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .story-actions button, .story-actions a {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11.5px;
+    text-decoration: none;
+  }
+  .story-actions a { color: var(--link); }
+  .story-actions button:hover, .story-actions a:hover { text-decoration: underline; }
+  .story-actions .sep { color: var(--hair); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    font-style: italic;
+    color: var(--ink-soft);
+    border: 1px dashed var(--hair);
+  }
+
+  .archive-week {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 26px 0 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ink);
+  }
+
+  footer {
+    margin-top: 44px;
+    padding-top: 16px;
+    border-top: 3px solid var(--rule);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="utility-bar">
+    <span id="topLeftDate"></span>
+    <span>Living Meta-Analysis &middot; Radiotherapy &amp; Immunotherapy in Solid Tumors</span>
+  </div>
+
+  <div class="masthead">
+    <h1>The ImmunoRad Times</h1>
+    <div class="motto">&ldquo;All the Trials Fit to Screen&rdquo;</div>
+  </div>
+
+  <div class="dateline-row">
+    <span id="editionTag">Weekly Science Edition</span>
+    <span id="editionDate"></span>
+    <span>Amsterdam UMC</span>
+  </div>
+  <hr class="rule-thick">
+  <hr class="rule-thin">
+
+  <div class="glance">
+    <div class="glance-label">At a Glance</div>
+    <div class="glance-row">
+      <div><span class="num" id="tickerIncluded">41</span><span class="lbl">Trials Included</span></div>
+      <div><span class="num" id="tickerPatients">15,049</span><span class="lbl">Patients Pooled</span></div>
+      <div><span class="num" id="tickerPending">0</span><span class="lbl">Pending Screening</span></div>
+      <div><span class="num" id="tickerLastRun">&mdash;</span><span class="lbl">Last Updated</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="new">This Week</button>
+    <button class="tab" data-tab="archive">Archive</button>
+  </div>
+  <div class="dateline-row" style="border:none; padding-top:0;">
+    <span id="sourceCounts" class="sans" style="text-transform:none; letter-spacing:normal;"></span>
+  </div>
+
+  <div id="newView">
+    <div class="columns" id="newColumns"></div>
+  </div>
+
+  <div id="archiveView" style="display:none;">
+    <div id="archiveList"></div>
+  </div>
+
+  <footer>
+    Sources: PubMed (automated, weekly via GitHub Action) and EMBASE (manually submitted, deduplicated).<br>
+    For screening purposes only &mdash; no automatic inclusion in the meta-analysis.
+  </footer>
+</div>
+
+<script>
+(function () {
+  const els = {
+    topLeftDate: document.getElementById('topLeftDate'),
+    editionDate: document.getElementById('editionDate'),
+    tickerPending: document.getElementById('tickerPending'),
+    tickerLastRun: document.getElementById('tickerLastRun'),
+    sourceCounts: document.getElementById('sourceCounts'),
+    newColumns: document.getElementById('newColumns'),
+    archiveList: document.getElementById('archiveList'),
+    newView: document.getElementById('newView'),
+    archiveView: document.getElementById('archiveView'),
+  };
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  els.topLeftDate.textContent = dateStr;
+  els.editionDate.textContent = dateStr;
+
+  function safeLocalStorageGet(key, fallback) {
+    try {
+      const v = localStorage.getItem(key);
+      return v ? JSON.parse(v) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function safeLocalStorageSet(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  const readIds = new Set(safeLocalStorageGet('immunorad_times_read_ids', []));
+
+  function recordKey(r) {
+    return r.pmid ? ('pmid:' + r.pmid) : (r.doi ? ('doi:' + r.doi.toLowerCase()) : ('title:' + (r.title || '').toLowerCase()));
+  }
+
+  async function fetchJSON(path) {
+    try {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function storyCard(r) {
+    const key = recordKey(r);
+    const isUnread = !readIds.has(key);
+    const kickerClass = r.source === 'Embase' ? 'embase' : 'pubmed';
+    const sourceLabel = r.source === 'Embase' ? 'EMBASE' : 'PUBMED';
+    const div = document.createElement('div');
+    div.className = 'story';
+    div.innerHTML = `
+      <span class="kicker ${kickerClass}">${sourceLabel}${isUnread ? '<span class="new-flag">NEW</span>' : ''}</span>
+      <h2>${(r.title || 'Untitled record').replace(/</g, '&lt;')}</h2>
+      <div class="byline">By ${(r.authors || 'Unknown authors')} &middot; <em>${r.journal || ''}</em>${r.pubdate ? (', ' + r.pubdate) : ''}</div>
+      <div class="abstract">${(r.abstract || 'No abstract available.').replace(/</g, '&lt;')}</div>
+      <div class="story-actions">
+        <button data-action="toggle">Read full abstract</button>
+        <span class="sep">&middot;</span>
+        ${r.url ? `<a href="${r.url}" target="_blank" rel="noopener">Open source &rarr;</a><span class="sep">&middot;</span>` : ''}
+        <button data-action="mark-read">${isUnread ? 'Mark as read' : 'Read'}</button>
+      </div>
+    `;
+    div.querySelector('[data-action="toggle"]').addEventListener('click', (e) => {
+      const abs = div.querySelector('.abstract');
+      abs.classList.toggle('expanded');
+      e.target.textContent = abs.classList.contains('expanded') ? 'Show less' : 'Read full abstract';
+    });
+    const readBtn = div.querySelector('[data-action="mark-read"]');
+    readBtn.addEventListener('click', () => {
+      readIds.add(key);
+      safeLocalStorageSet('immunorad_times_read_ids', Array.from(readIds));
+      const flag = div.querySelector('.new-flag');
+      if (flag) flag.remove();
+      readBtn.textContent = 'Read';
+    });
+    return div;
+  }
+
+  function renderEmpty(container, message) {
+    const div = document.createElement('div');
+    div.className = 'empty-state';
+    div.textContent = message;
+    container.appendChild(div);
+  }
+
+  function groupByWeek(records) {
+    const groups = {};
+    for (const r of records) {
+      const wk = r.date_added || 'unknown date';
+      groups[wk] = groups[wk] || [];
+      groups[wk].push(r);
+    }
+    return groups;
+  }
+
+  async function init() {
+    const newHits = (await fetchJSON('./data/new_hits.json')) || [];
+    const archive = (await fetchJSON('./data/archive.json')) || [];
+    const state = await fetchJSON('./data/state.json');
+
+    els.tickerPending.textContent = newHits.length;
+    els.tickerLastRun.textContent = state && state.last_run ? state.last_run : '—';
+
+    const pubmedCount = archive.filter(r => r.source === 'PubMed').length;
+    const embaseCount = archive.filter(r => r.source === 'Embase').length;
+    els.sourceCounts.textContent = `PubMed: ${pubmedCount} in archive · Embase: ${embaseCount} in archive`;
+
+    els.newColumns.innerHTML = '';
+    if (newHits.length === 0) {
+      renderEmpty(els.newColumns, 'No new candidate trials this week. Add this file next to a data/ folder containing new_hits.json, archive.json and state.json (see README) once the GitHub Action has run, or submit your EMBASE export for processing.');
+    } else {
+      newHits.forEach(r => els.newColumns.appendChild(storyCard(r)));
+    }
+
+    els.archiveList.innerHTML = '';
+    if (archive.length === 0) {
+      renderEmpty(els.archiveList, 'The archive is empty so far.');
+    } else {
+      const groups = groupByWeek(archive);
+      const weeks = Object.keys(groups).sort().reverse();
+      for (const wk of weeks) {
+        const label = document.createElement('div');
+        label.className = 'archive-week';
+        label.textContent = `Added on ${wk} (${groups[wk].length})`;
+        els.archiveList.appendChild(label);
+        const cols = document.createElement('div');
+        cols.className = 'columns';
+        groups[wk].forEach(r => cols.appendChild(storyCard(r)));
+        els.archiveList.appendChild(cols);
+      }
+    }
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const which = tab.dataset.tab;
+      els.newView.style.display = which === 'new' ? 'block' : 'none';
+      els.archiveView.style.display = which === 'archive' ? 'block' : 'none';
+    });
+  });
+
+  init();
+})();
+</script>
+</body>
+</html>
