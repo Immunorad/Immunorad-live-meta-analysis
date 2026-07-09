@@ -1,0 +1,28 @@
+name: ImmunoRad import prior CSV
+
+on:
+  workflow_dispatch: {}  # manual trigger only
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Import prior-search CSV into the archive
+        run: python living-search/scripts/import_prior_csv.py living-search/data/prior_imports/Pubmed_2026_NEW_vs_2025_RAYYAN.csv
+
+      - name: Commit updated data
+        run: |
+          git config user.name "living-search-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add living-search/data/archive.json
+          git diff --cached --quiet || git commit -m "Import prior-search CSV as known baseline"
+          git push

@@ -41,17 +41,20 @@ No token = read-only: they can browse and read abstracts, but clicking Include/E
 
 You asked for this because PubMed sometimes indexes older records late, so a pure "what's new" search could miss things the original 15-01-2026 search didn't catch either.
 
-**What I already did on my end (no network access needed for this part):**
-- Imported your uploaded `Pubmed_2026_NEW_vs_2025_RAYYAN.csv` (236 records) into `data/archive.json`, tagged `"prior_search": true`, so none of those will ever reappear as "new" — they're the known baseline.
+**Step 1 — import your prior CSV results as a known baseline:**
+Your `Pubmed_2026_NEW_vs_2025_RAYYAN.csv` (236 records) is committed at `living-search/data/prior_imports/`. Run:
+**Actions → "ImmunoRad import prior CSV" → Run workflow**
+This adds all 236 records to `data/archive.json` tagged `"prior_search": true`, on top of whatever the live archive currently contains — so it never conflicts with what the weekly Action has already found, and none of these 236 will ever reappear as "new".
 
-**What still needs to run for real** (I can't call the PubMed API directly from this chat — see below):
-1. Repo → **Actions** tab → **"ImmunoRad one-time backfill (since 2025-01-01)"** → **Run workflow**
-2. This runs the exact literal query with `mindate=2025-01-01`, `datetype=pdat` (publication date, to also catch late-indexed older records), dedupes against the full archive (including your 236 CSV records), and adds only genuinely new hits to `new_hits.json`
-3. It's a one-off — it does **not** affect the normal Monday schedule or `state.json`'s incremental tracking
+**Step 2 — run the actual backfill:**
+**Actions → "ImmunoRad one-time backfill (since 2025-01-01)" → Run workflow**
+This runs the exact literal query with `mindate=2025-01-01`, `datetype=pdat` (publication date, to also catch late-indexed older records), dedupes against the full archive (including the 236 just imported), and adds only genuinely new hits to `new_hits.json`. It's a one-off — it does not affect the normal Monday schedule.
+
+Run Step 1 before Step 2, so the dedup already knows about your prior results.
 
 ## Why I couldn't just run the search myself in this chat
 
-My tools here can't reach the PubMed API directly (network restrictions in this environment) and can't call arbitrary URLs I haven't been given or found via search. GitHub Actions runs on GitHub's own servers, which have normal internet access — so that's where the actual API calls happen. Everything I *could* do locally (parsing your CSV, writing the scripts, updating the archive with your prior results) is already done.
+My tools here can't reach the PubMed API directly (network restrictions in this environment) and can't call arbitrary URLs I haven't been given or found via search. GitHub Actions runs on GitHub's own servers, which have normal internet access — so that's where the actual API calls, and the CSV import, happen. This also avoids merge conflicts: the Action always works from whatever the live `archive.json` currently is, instead of a local copy that can drift out of sync.
 
 ## Adding EMBASE (manual, as before)
 

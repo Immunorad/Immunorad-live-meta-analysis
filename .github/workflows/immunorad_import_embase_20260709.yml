@@ -1,0 +1,28 @@
+name: ImmunoRad import Embase CSV (2026-07-09)
+
+on:
+  workflow_dispatch: {}  # manual trigger only
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Merge Embase export into the archive
+        run: python living-search/scripts/merge_embase.py living-search/data/embase_imports/Update_EMBASE_search_09072026.csv
+
+      - name: Commit updated data
+        run: |
+          git config user.name "living-search-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add living-search/data/archive.json living-search/data/new_hits.json
+          git diff --cached --quiet || git commit -m "Import Embase export (2026-07-09)"
+          git push
