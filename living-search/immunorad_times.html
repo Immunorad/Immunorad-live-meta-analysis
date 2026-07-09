@@ -162,6 +162,34 @@
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper);
     padding: 10px 18px; font-family: Helvetica, Arial, sans-serif; font-size: 12.5px; z-index: 60; display: none;
   }
+
+  /* ---------- PRISMA diagram ---------- */
+  .prisma-wrap { font-family: Helvetica, Arial, sans-serif; padding: 10px 0 30px; }
+  .prisma-caption {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px;
+  }
+  .prisma-caption h2 { font-family: Georgia, serif; font-size: 22px; margin: 0; }
+  .prisma-caption .subrange { font-size: 12px; color: var(--ink-soft); font-style: italic; }
+  .prisma-stage-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 22px 0 8px;
+  }
+  .prisma-row { display: flex; gap: 18px; align-items: stretch; }
+  .prisma-box {
+    border: 1.5px solid var(--ink); padding: 14px 18px; font-size: 13px; line-height: 1.5; flex: 1;
+  }
+  .prisma-box .big { font-size: 17px; font-weight: 700; }
+  .prisma-box.id-box { background: #EAF5EF; }
+  .prisma-box.excl-box { background: #FBEAEA; font-size: 12px; }
+  .prisma-box.incl-box { background: var(--ink); color: var(--paper); }
+  .prisma-box.incl-box .big { font-size: 19px; }
+  .prisma-box.manual-box { background: #FFF6E8; }
+  .prisma-arrow-down { text-align: center; font-size: 18px; color: var(--ink-soft); margin: 4px 0; }
+  .prisma-note {
+    font-size: 11.5px; color: var(--ink-soft); font-style: italic; margin-top: 6px; line-height: 1.5;
+  }
+  .prisma-substage { display: flex; gap: 18px; margin-top: 14px; }
+  .prisma-substage .prisma-box { text-align: center; }
 </style>
 </head>
 <body>
@@ -201,10 +229,11 @@
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-tab="new">This Week</button>
-    <button class="tab" data-tab="included">Included</button>
+    <button class="tab active" data-tab="new">To Screen</button>
+    <button class="tab" data-tab="included">Eligible for Full Text</button>
     <button class="tab" data-tab="excluded">Excluded</button>
     <button class="tab" data-tab="archive">Archive</button>
+    <button class="tab" data-tab="prisma">PRISMA</button>
   </div>
   <div class="dateline-row" style="border:none; padding-top:0;">
     <span id="sourceCounts" class="sans" style="text-transform:none; letter-spacing:normal;"></span>
@@ -214,6 +243,7 @@
   <div id="includedView" style="display:none;"><div class="columns" id="includedColumns"></div></div>
   <div id="excludedView" style="display:none;"><div class="columns" id="excludedColumns"></div></div>
   <div id="archiveView" style="display:none;"><div id="archiveList"></div></div>
+  <div id="prismaView" style="display:none;"><div id="prismaContent"></div></div>
 
   <footer>
     Sources: PubMed (automated, weekly via GitHub Action) and EMBASE (manually submitted, deduplicated).<br>
@@ -271,6 +301,8 @@
     includedView: document.getElementById('includedView'),
     excludedView: document.getElementById('excludedView'),
     archiveView: document.getElementById('archiveView'),
+    prismaView: document.getElementById('prismaView'),
+    prismaContent: document.getElementById('prismaContent'),
     accountDot: document.getElementById('accountDot'),
     accountLabel: document.getElementById('accountLabel'),
     settingsBtn: document.getElementById('settingsBtn'),
@@ -410,6 +442,7 @@
     const key = recordKey(r);
     const decisionEntry = state.decisions[key];
     const decision = decisionEntry ? decisionEntry.decision : null;
+    const decisionLabel = decision === 'included' ? 'Eligible for full text' : decision === 'excluded' ? 'Excluded' : null;
     const isUnread = !readIds.has(key) && !decision;
     const kickerClass = r.source === 'Embase' ? 'embase' : 'pubmed';
     const sourceLabel = r.source === 'Embase' ? 'EMBASE' : 'PUBMED';
@@ -419,7 +452,7 @@
     div.innerHTML = `
       <div class="kicker-row">
         <span class="kicker ${kickerClass}">${sourceLabel}${isUnread ? '<span class="new-flag">NEW</span>' : ''}</span>
-        ${decision ? `<span class="decision-badge ${decision}">${decision}</span>` : ''}
+        ${decision ? `<span class="decision-badge ${decision}">${decisionLabel}</span>` : ''}
       </div>
       <h2>${(r.title || 'Untitled record').replace(/</g, '&lt;')}</h2>
       <div class="byline">By ${(r.authors || 'Unknown authors')} &middot; <em>${r.journal || ''}</em>${r.pubdate ? (', ' + r.pubdate) : ''}</div>
@@ -428,11 +461,11 @@
         <button class="link-btn" data-action="toggle">Read full abstract</button>
         ${r.url ? `<a class="link-btn" href="${r.url}" target="_blank" rel="noopener">Open source &rarr;</a>` : ''}
         ${!opts.readOnly ? `
-          <button class="btn include${decision === 'included' ? ' active' : ''}" data-action="include">Include</button>
+          <button class="btn include${decision === 'included' ? ' active' : ''}" data-action="include">Eligible for full text</button>
           <button class="btn exclude${decision === 'excluded' ? ' active' : ''}" data-action="exclude">Exclude</button>
         ` : ''}
       </div>
-      ${decisionEntry ? `<div class="story-meta">Marked ${decisionEntry.decision} by ${decisionEntry.by} on ${decisionEntry.date}</div>` : ''}
+      ${decisionEntry ? `<div class="story-meta">Marked ${decisionLabel} by ${decisionEntry.by} on ${decisionEntry.date}</div>` : ''}
     `;
     div.querySelector('[data-action="toggle"]').addEventListener('click', (e) => {
       const abs = div.querySelector('.abstract');
@@ -496,7 +529,7 @@
 
     els.includedColumns.innerHTML = '';
     if (included.length === 0) {
-      renderEmpty(els.includedColumns, 'No trials included yet.');
+      renderEmpty(els.includedColumns, 'No trials marked eligible for full text yet.');
     } else {
       included.forEach(r => els.includedColumns.appendChild(storyCard(r)));
     }
@@ -527,18 +560,130 @@
     }
   }
 
+  function renderPrisma() {
+    const identified = state.totalIdentified;
+    const uniqueScreened = state.archive.length;
+    const duplicatesRemoved = identified !== null ? Math.max(0, identified - uniqueScreened) : null;
+
+    const excludedCount = Object.values(state.decisions).filter(d => d.decision === 'excluded').length;
+    const eligibleCount = Object.values(state.decisions).filter(d => d.decision === 'included').length;
+
+    const mp = state.manualPrisma;
+
+    let html = `
+      <div class="prisma-wrap">
+        <div class="prisma-caption">
+          <h2>PRISMA flow diagram</h2>
+          <span class="subrange">Study selection — living update, auto-computed where possible</span>
+        </div>
+
+        <div class="prisma-stage-label">Identification</div>
+        <div class="prisma-row">
+          <div class="prisma-box id-box">
+            <div class="big">${identified !== null ? identified.toLocaleString() : '—'}</div>
+            Records identified<br>PubMed + Embase (cumulative, all searches to date)
+          </div>
+        </div>
+        <div class="prisma-note">
+          ${identified === null
+            ? 'Not available yet — run any search/import workflow at least once after this update to start tracking.'
+            : 'Cumulative across every PubMed search (weekly + backfills) and every Embase import ever run, including the historical 2025/2026 vintage files from this update. Counted with duplicates, by design — see below.'}
+        </div>
+
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box excl-box">
+            <span class="big">${duplicatesRemoved !== null ? duplicatesRemoved.toLocaleString() : '—'}</span> duplicates removed
+          </div>
+        </div>
+
+        <div class="prisma-stage-label">Screening</div>
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box id-box">
+            <div class="big">${uniqueScreened.toLocaleString()}</div>
+            Unique records screened
+          </div>
+        </div>
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box excl-box">
+            <span class="big">${excludedCount.toLocaleString()}</span> excluded on title/abstract
+          </div>
+        </div>
+
+        <div class="prisma-stage-label">Eligibility (manual — full-text review)</div>
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box id-box">
+            <div class="big">${eligibleCount.toLocaleString()}</div>
+            Marked "Eligible for full text" &mdash; awaiting/undergoing full-text assessment
+          </div>
+        </div>
+    `;
+
+    if (mp) {
+      html += `
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box excl-box">
+            Excluded — full text (n=${mp.full_text_excluded_total ?? '—'})<br>
+            ${(mp.full_text_exclusion_reasons || []).map(r => `${r.label} (n=${r.n})`).join('<br>')}
+          </div>
+        </div>
+
+        <div class="prisma-stage-label">Inclusion</div>
+        <div class="prisma-arrow-down">&darr;</div>
+        <div class="prisma-row">
+          <div class="prisma-box incl-box">
+            <div class="big">n = ${mp.included_trials ?? '—'} randomized trials</div>
+            ${mp.included_patients ? mp.included_patients.toLocaleString() + ' patients' : ''}
+          </div>
+        </div>
+        ${mp.subgroups ? `
+        <div class="prisma-substage">
+          ${mp.subgroups.map(sg => `
+            <div class="prisma-box">
+              <div class="big">${sg.trials} trials</div>
+              ${sg.label}<br>${(sg.outcomes || []).join(' &middot; ')}
+            </div>
+          `).join('')}
+        </div>` : ''}
+        <div class="prisma-note">Eligibility and Inclusion numbers are entered manually in
+          <code>data/manual_prisma_stats.json</code> once full-text review is complete for this round —
+          that judgment isn't something the Include/Exclude screening step captures.</div>
+      `;
+    } else {
+      html += `
+        <div class="prisma-note" style="margin-top:14px;">
+          Eligibility (full-text) and Inclusion figures aren't set yet for this round.
+          Add <code>data/manual_prisma_stats.json</code> once full-text review is complete
+          (see README for the expected format) to show them here.
+        </div>
+      `;
+    }
+
+    html += `</div>`;
+    els.prismaContent.innerHTML = html;
+  }
+
   async function init() {
-    const [newHits, archive, stateFile, decisionsFile] = await Promise.all([
+    const [newHits, archive, stateFile, decisionsFile, manualPrisma] = await Promise.all([
       fetchJSON('./data/new_hits.json'),
       fetchJSON('./data/archive.json'),
       fetchJSON('./data/state.json'),
       fetchJSON('./data/decisions.json'),
+      fetchJSON('./data/manual_prisma_stats.json'),
     ]);
     state.newHits = newHits || [];
     state.archive = archive || [];
     state.lastRun = stateFile && stateFile.last_run ? stateFile.last_run : null;
+    state.totalIdentified = stateFile && typeof stateFile.total_records_identified === 'number'
+      ? stateFile.total_records_identified : null;
     state.decisions = decisionsFile || {};
+    state.manualPrisma = manualPrisma || null;
     render();
+    renderPrisma();
   }
 
   document.querySelectorAll('.tab').forEach(tab => {
@@ -550,6 +695,7 @@
       els.includedView.style.display = which === 'included' ? 'block' : 'none';
       els.excludedView.style.display = which === 'excluded' ? 'block' : 'none';
       els.archiveView.style.display = which === 'archive' ? 'block' : 'none';
+      els.prismaView.style.display = which === 'prisma' ? 'block' : 'none';
     });
   });
 

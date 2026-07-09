@@ -1,0 +1,16 @@
+{
+  "_comment": "Fill this in once full-text review is complete for a given round. The Identification/Screening numbers above this stage are computed automatically from archive.json + decisions.json — this file only covers what can't be automated (full-text judgment).",
+  "full_text_excluded_total": 218,
+  "full_text_exclusion_reasons": [
+    { "label": "Not most recent report", "n": 79 },
+    { "label": "Ineligible design/protocol", "n": 59 },
+    { "label": "No survival outcomes", "n": 59 },
+    { "label": "No ICIs / other reasons", "n": 21 }
+  ],
+  "included_trials": 41,
+  "included_patients": 15049,
+  "subgroups": [
+    { "label": "ICI vs no ICI", "trials": 35, "outcomes": ["OS", "PFS", "EFS"] },
+    { "label": "RT vs no RT", "trials": 6, "outcomes": ["OS", "PFS"] }
+  ]
+}

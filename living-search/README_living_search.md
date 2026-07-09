@@ -71,10 +71,46 @@ python living-search/scripts/import_prior_csv.py path/to/export.csv
 ```
 Marks everything in it as already-known (same effect as what was done with your Rayyan export), without touching `new_hits.json`.
 
+## Automated PRISMA flow diagram
+
+A new **PRISMA** tab on the page shows a live flow diagram:
+
+- **Records identified**, **Duplicates removed**, **Unique records screened**, **Excluded on title/abstract** — fully automatic, computed from `state.json`'s cumulative `total_records_identified` counter and `archive.json`/`decisions.json`.
+- **"Eligible for full text"** (renamed from "Include") — the count of trials marked eligible, also automatic.
+- **Eligibility (full-text) exclusions** and **Inclusion** (final trial count, patient count, subgroups) — these require human full-text judgment, so they're **not** automatic. Fill them in yourself in `data/manual_prisma_stats.json` once full-text review for a round is done; the page picks them up automatically.
+
+### Importing the historical 2025/2026 search vintages
+
+Your original 2010–2025 and 2010–2026 full search exports (both databases) are committed at `living-search/data/historical_imports/`. Run once:
+
+**Actions → "ImmunoRad import historical vintages (2025 + 2026)" → Run workflow**
+
+This merges all four files into `archive.json` (deduped by PMID/DOI/title, tagged `prior_search: true` — they won't show up in "To Screen"), and adds their **raw** record counts to `state.json`'s `total_records_identified` counter, which is what powers "Records identified" and "Duplicates removed" on the PRISMA tab.
+
+**Order matters a bit:** run this historical import once, early — ideally before or alongside the other one-off imports (Embase CSV import, PubMed backfill), so the cumulative counter reflects the full picture. Every script that touches PubMed/Embase data now updates this same counter, so future weekly runs and any new Embase imports keep it accurate automatically.
+
+**Known small gap:** the two PubMed workflow runs from before this counter existed (the very first manual run and the first scheduled Monday run) aren't retroactively included, since incremental runs advance their search window forward and can't be safely re-run for the same historical dates. If you want that exact-to-the-record precision, check those two runs' logs (Actions → click the run → "esearch returned N candidate PMIDs") and let me know the numbers — I'll fold them into `state.json` by hand once.
+
+### `data/manual_prisma_stats.json` format
+
+```json
+{
+  "full_text_excluded_total": 218,
+  "full_text_exclusion_reasons": [
+    { "label": "Not most recent report", "n": 79 }
+  ],
+  "included_trials": 41,
+  "included_patients": 15049,
+  "subgroups": [
+    { "label": "ICI vs no ICI", "trials": 35, "outcomes": ["OS", "PFS", "EFS"] }
+  ]
+}
+```
+It's currently seeded with the **last completed round's** (published manuscript) numbers as a placeholder — update it once you've done full-text review on this round's new "Eligible for full text" candidates.
+
 ## What this does and doesn't guarantee
 
 - The PubMed query is copied **verbatim** from `PubMed_Search_prompt.docx` — not simplified.
 - Weekly runs detect new records by **date added to PubMed** (`edat`); the one-off backfill uses **publication date** (`pdat`) to also catch late-indexed older records.
 - Deduplication runs on PMID, DOI, and normalized title.
 - Include/Exclude is a screening aid with a shared audit trail — it does not itself alter the manuscript or the pooled analysis. That step is still yours.
-<!-- redeploy trigger -->

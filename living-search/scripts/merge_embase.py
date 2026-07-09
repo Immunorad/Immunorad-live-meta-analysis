@@ -37,6 +37,7 @@ from datetime import date
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 ARCHIVE_PATH = os.path.join(DATA_DIR, "archive.json")
 NEW_HITS_PATH = os.path.join(DATA_DIR, "new_hits.json")
+STATE_PATH = os.path.join(DATA_DIR, "state.json")
 
 
 def load_json(path, default):
@@ -242,6 +243,10 @@ def main():
         sys.exit(1)
 
     print(f"Parsed {len(raw_records)} record(s) from {path} (detected format: {fmt}).")
+
+    state = load_json(STATE_PATH, {"last_run": date.today().isoformat(), "seen_pmids": []})
+    state["total_records_identified"] = state.get("total_records_identified", 0) + len(raw_records)
+    save_json(STATE_PATH, state)
 
     archive = load_json(ARCHIVE_PATH, [])
     seen_pmids = {r["pmid"] for r in archive if r.get("pmid")}

@@ -313,6 +313,10 @@ def main():
     pmids = esearch_new_pmids(mindate, maxdate, datetype=args.datetype)
     print(f"esearch returned {len(pmids)} candidate PMIDs.")
 
+    # Track this run's raw hit count for the PRISMA "records identified"
+    # tally, regardless of how many turn out to be duplicates.
+    state["total_records_identified"] = state.get("total_records_identified", 0) + len(pmids)
+
     records = efetch_details(pmids)
     fresh = dedupe_against_archive(records, archive)
     print(f"{len(fresh)} genuinely new record(s) after dedup against the archive.")
@@ -330,10 +334,11 @@ def main():
 
     # Only advance last_run for the normal incremental (edat) mode. A manual
     # --since backfill on pdat shouldn't change what next Monday's regular
-    # run considers "already covered".
+    # run considers "already covered". The total_records_identified counter,
+    # however, should be saved either way.
     if args.since is None:
         state["last_run"] = date.today().isoformat()
-        save_state(state)
+    save_state(state)
 
     print("Done.")
 
