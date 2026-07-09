@@ -114,3 +114,5 @@ It's currently seeded with the **last completed round's** (published manuscript)
 - Weekly runs detect new records by **date added to PubMed** (`edat`); the one-off backfill uses **publication date** (`pdat`) to also catch late-indexed older records.
 - Deduplication runs on PMID, DOI, and normalized title.
 - Include/Exclude is a screening aid with a shared audit trail — it does not itself alter the manuscript or the pooled analysis. That step is still yours.
+
+     
