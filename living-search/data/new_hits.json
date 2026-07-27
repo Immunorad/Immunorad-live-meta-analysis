@@ -9190,5 +9190,29 @@
     "source": "Embase",
     "url": "https://pubmed.ncbi.nlm.nih.gov/29244528/",
     "date_added": "2026-07-09"
+  },
+  {
+    "pmid": "42495710",
+    "doi": "10.1136/gutjnl-2025-336979",
+    "title": "Short-Course Radiotherapy-Based Total Neoadjuvant Therapy plus Tislelizumab for Locally Advanced Rectal Cancer (Neo-STAR): Early Outcomes of a Randomized Phase II Trial.",
+    "authors": "Wu F, Hu X, Li B, Zhang J, Wang G, Fan H et al.",
+    "journal": "Cancer communications (London, England)",
+    "pubdate": "2026",
+    "abstract": "Background: Short-course radiotherapy (SCRT)-based total neoadjuvant therapy (TNT) is used for locally advanced rectal cancer (LARC). However, the pathological complete response (pCR) rate still hovers around 30%. Radiotherapy and immune checkpoint inhibitors have been shown to exert synergistic anticancer effects. This phase II randomized clinical trial aimed to evaluate the efficacy and safety of SCRT followed by capecitabine plus oxaliplatin (CAPOX) and tislelizumab versus SCRT followed by CAPOX alone in LARC. Methods: Patients initially diagnosed with clinical tumor stage 1 to 2, with node involvement and no distant metastasis (cT1-2N+M0) or clinical tumor stage 3 to 4, with any node status and no distant metastasis (cT3-4NanyM0) rectal adenocarcinoma were randomly assigned to receive SCRT (25 Gy in 5 fractions [25 Gy/5F]), followed by 4 cycles of CAPOX combined with tislelizumab (SCRT-TNT-ICI) or CAPOX alone (SCRT-TNT). After total mesorectal excision, 2 cycles of postoperative chemotherapy were administered according to the patient's preference. The primary end point was the pCR rate, and secondary end points included major pathological response (tumor regression grade 0 or 1), 3-year progression-free survival, 3-year overall survival, and adverse events. Results: Between September 2021 and March 2024, 118 patients were randomized, of whom 111 started the allocated treatment, with 53 and 58 in SCRT-TNT-ICI and SCRT-TNT groups, respectively. Of those, 89 patients had surgical resection, including 45 in the SCRT-TNT-ICI group and 44 in the SCRT-TNT group. The pCR rate was 45.3% (95% confidence interval [CI], 31.5% to 59.8%) in the SCRT-TNT-ICI group compared to 27.6% (95% CI, 16.6% to 40.8%) in the SCRT-TNT group (odds ratio = 2.17; 95% CI, 0.99 to 4.79; P = 0.052). The major pathological response rates were 50.9% (95% CI, 36.6% to 65.2%) and 31.0% (95% CI, 19.5% to 44.6%), respectively (odds ratio = 2.31; 95% CI, 1.06 to 5.01; P = 0.033). During the neoadjuvant treatment period, the incidence of grade 3 to 4 adverse events was comparable between the SCRT-TNT-ICI and SCRT-TNT groups, with anemia being the most common in both groups. Conclusion: This phase II study provides preliminary evidence of promising tumor regression with SCRT-TNT combined with tislelizumab in LARC, warranting further validation in phase III trials. Trial registration: This trial was registered at clinicaltrials.gov (Identifier: NCT05086627).",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42495710/",
+    "date_added": "2026-07-27"
+  },
+  {
+    "pmid": "42493213",
+    "doi": "10.1136/jitc-2026-014803",
+    "title": "Randomized phase II trial of nivolumab and ipilimumab with or without stereotactic body radiation therapy in patients with metastatic castration-resistant prostate cancer: the CheckPRO, CA209-8TY trial.",
+    "authors": "Eefsen RL, Spindler NJ, Theile S, Al-Farra G, Hendel HW, Lorentzen T et al.",
+    "journal": "Journal for immunotherapy of cancer",
+    "pubdate": "2026",
+    "abstract": "Metastatic castration-resistant prostate cancer (mCRPC) is among the leading causes of cancer-related mortality in men worldwide. Treatment options for mCRPC typically include chemotherapy and androgen receptor pathway inhibitors. Immune checkpoint inhibitors (ICIs) have demonstrated a limited effect in mCRPC. We hypothesized that the addition of stereotactic body radiation therapy (SBRT) could enhance immune responses and improve treatment outcomes. Patients with mCRPC who had received at least two prior lines of therapy were randomized 1:1 to receive SBRT with nivolumab and ipilimumab (arm A) or nivolumab and ipilimumab (arm B). The dual primary endpoints in the study were prostate-specific antigen (PSA) response rate and objective response rate (ORR). Secondary endpoints included overall survival (OS), PSA, radiologic progression-free survival, and toxicity. We enrolled 91 patients, and 81 patients received at least one treatment with ICIs and were eligible for evaluation of the efficacy and safety endpoints. Of the evaluable patient population, the confirmed PSA response rate was 21.6% (95% CI 9.8% to 38.2%) in arm A, and 20.5% (95% CI 9.8% to 35.3%) in arm B. ORR was 16.7% (95% CI 4.7% to 37.4%) and 22.2% (95% CI 10.1% to 39.2%) in arms A and B, respectively. Median OS was 10.2 months (95% CI 7.1 to 15.2) in arm A and 9.2 months (95% CI 7.1 to 14.4) in arm B. Treatment-related adverse events grade 3-4 were observed in 27 patients (33.3%). The addition of SBRT to nivolumab and ipilimumab did not improve outcomes; however, a fraction of the patients had a response to the treatment combination of nivolumab and ipilimumab. Explorative translational research is needed to identify possible biomarkers of response to immunotherapy with ICIs in mCRPC. European Union Clinical Trial Registry (https://www.clinicaltrialsregister.eu) EudraCT number: 2018-003461-34 and on https://clinicaltrials.gov (NCT05655715).",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42493213/",
+    "date_added": "2026-07-27"
   }
 ]
