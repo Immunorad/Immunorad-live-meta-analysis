@@ -9214,5 +9214,29 @@
     "source": "PubMed",
     "url": "https://pubmed.ncbi.nlm.nih.gov/42493213/",
     "date_added": "2026-07-27"
+  },
+  {
+    "pmid": "42649154",
+    "doi": "10.1186/1471-2105-12-77",
+    "title": "Single-fraction or multi-fraction stereotactic ablative body radiotherapy followed by atezolizumab in advanced triple-negative breast cancer: a randomized phase II trial.",
+    "authors": "David S, Savas P, Siva S, Bressel M, White M, Nikolic B et al.",
+    "journal": "Nature communications",
+    "pubdate": "2026",
+    "abstract": "Pre-clinical evidence suggests that stereotactic ablative body radiotherapy (SABR) can enhance systemic anti-tumor responses when combined with immune checkpoint inhibition, although optimal fractionation remains uncertain. Here we conducted a phase II multi-center randomized trial (AZTEC trial; ClinicalTrials.gov identifier NCT03464942) to investigate the efficacy and safety of single-fraction (SF: 20 Gy; n = 27) or multi-fraction (MF: 24 Gy in three fractions; n = 27) SABR followed by anti-PD-L1 atezolizumab in 54 women with advanced triple-negative breast cancer (TNBC) as first or second-line treatment. The primary endpoint was progression free survival (PFS). Secondary endpoints included best overall response rate, clinical benefit rate, overall survival and safety. We observed that both treatment arms had similar efficacy: median PFS was 2.5 months (90% CI: 1.7-4.5) for SF and 3.1 months (90% CI: 1.8-3.9) for MF. The null hypothesis (PFS of 2 months) was not rejected in either arm. Clinical benefit (RECIST complete response/partial response or stable disease for ≥24 weeks) was achieved in 5 (20%) SF and 6 (25%) MF patients, all with oligometastatic disease, independent of PD-L1 expression. Adverse events were similar between arms. Prespecified exploratory analysis of peripheral blood found higher CD8 TPEX cells before and during treatment correlated with improved response duration. Combining SABR with atezolizumab is safe, however further testing is required to determine efficacy for advanced TNBC patients with oligometastatic disease.",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42649154/",
+    "date_added": "2026-08-31"
+  },
+  {
+    "pmid": "42648750",
+    "doi": "10.1136/jitc-2025-013527",
+    "title": "AdvanTIG-301: a phase III study of ociperlimab plus tislelizumab and concurrent chemoradiotherapy in stage III unresectable non-small cell lung cancer.",
+    "authors": "Xing L, Kato T, Levy A, Loo BW, Spira AI, Wang J et al.",
+    "journal": "Journal for immunotherapy of cancer",
+    "pubdate": "2026",
+    "abstract": "Patients with unresectable stage III non-small cell lung cancer (NSCLC) have an unmet need for new therapies that improve survival. This phase III trial investigated the safety and efficacy of concurrent ociperlimab and tislelizumab plus concurrent chemoradiotherapy (cCRT) in treatment-naïve patients with stage III NSCLC. In this phase III, multicenter, randomized, multiarm, open-label trial, patients with unresectable stage III NSCLC received concurrent ociperlimab plus tislelizumab and cCRT, followed by ociperlimab plus tislelizumab (arm A), tislelizumab and cCRT, followed by tislelizumab (arm B), or cCRT, followed by durvalumab (arm C) (NCT04866017). Objectives were to compare progression-free survival (PFS), overall survival (OS), objective response rate (ORR), duration of response, disease control rate, clinical benefit rate, time to death or distant metastasis (TTDM), and safety and tolerability for arms A versus C, B versus C, and A versus B. 63 patients were randomized to arms A (N=22), B (N=19), and C (N=22) prior to early trial termination. In A, B, and C, respectively, 95.5% (21/22), 84.2% (16/19), and 95.5% (21/22) were current or former smokers, and 68.2% (15/22), 73.7% (14/19), and 68.2% (15/22) had PD-L1 expression in tumor cells of ≥1%. Median PFS (95% CI) was not reached (NR) (6.3-not estimable (NE)) in A, 15.0 months (7.4 to NE) in B, and 10.4 months (5.7 to NE) in C. Median OS and TTDM were NR in any arm. ORR (95% CI) was 68.2% (45.1%-86.1%) in A, 68.4% (43.4%-87.4%) in B, and 59.1% (36.4%-79.3%) in C; all responses were partial responses. Treatment-emergent adverse events (TEAEs) occurred in all patients; in arms A, B, and C, respectively, pneumonitis occurred in 18.2% (4/22), 5.6% (1/18), and 9.1% (2/22) of patients, and interstitial lung disease occurred in 13.6% (3/22), 11.1% (2/18), and 0% of patients, of which the majority of events for each were grade 1/2. Grade ≥3 treatment-related TEAEs occurred in 68.2% (15/22), 66.7% (12/18), and 68.2% (15/22) of patients in arms A, B, and C, respectively. There was a trend toward improved efficacy when adding tislelizumab with or without ociperlimab to cCRT followed by tislelizumab with or without ociperlimab compared with cCRT followed by durvalumab; however, efficacy data were for descriptive purposes only. No unexpected or new safety signals were identified.",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42648750/",
+    "date_added": "2026-08-31"
   }
 ]
