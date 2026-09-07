@@ -49,6 +49,7 @@ tumor_order <- c(
   "non-small-cell lung",
   "small-cell lung",
   "esophageal",
+  "rectal",
   "pancreatic",
   "cervical",
   "prostate",
@@ -63,6 +64,7 @@ tumor_pretty <- c(
   "non-small-cell lung" = "NSCLC",
   "small-cell lung" = "SCLC",
   "esophageal" = "Esophageal",
+  "rectal" = "Rectal",
   "pancreatic" = "Pancreatic",
   "cervical" = "Cervical",
   "prostate" = "Prostate",
@@ -828,8 +830,9 @@ template_path <- file.path(repo_dir, "index_template.html")
 index_path    <- file.path(repo_dir, "index.html")
 
 if (!file.exists(template_path)) {
-  stop("index_template.html not found in repo root. Put it in the repo root and include {{LAST_UPDATED}}.")
-}
+  message("index_template.html not found in repo root - skipping the index.html rewrite step. ",
+          "index.html is now maintained by hand; update its text/dates manually.")
+} else {
 
 tpl <- readLines(template_path, warn = FALSE)
 
@@ -853,6 +856,8 @@ if (file.exists(index_path)) {
 tpl2 <- gsub("\\{\\{LAST_UPDATED\\}\\}", updated, tpl)
 writeLines(tpl2, con = index_path)
 
+}  # end else (template exists)
+
 # =============================================================================
 # Done
 # =============================================================================
@@ -861,7 +866,7 @@ cat("\nDone. Outputs written to:\n")
 cat(" - figures: ", fig_dir, "\n", sep = "")
 cat(" - results: ", res_dir, "\n", sep = "")
 cat(" - JSON for dropdown: ", file.path(res_dir, "available_tumors.json"), "\n", sep = "")
-cat(" - index.html updated from index_template.html with Last updated = ", updated, "\n", sep = "")
+if (exists("updated")) cat(" - index.html updated from index_template.html with Last updated = ", updated, "\n", sep = "")
 
 cat("\nLOCAL VIEW TIP:\n")
 cat("Do NOT open index.html via file:// (CORS). Use:\n")
@@ -872,4 +877,4 @@ cat('  servr::httd("', repo_dir, '")\n', sep = "")
 # install.packages("servr")
 
 # run (replace path with your repo root folder):
-servr::httd("C:/Users/P087325/OneDrive - Amsterdam UMC/Documenten/GitHub/Immunorad-live-meta-analysis")
+# servr::httd("C:/Users/P087325/OneDrive - Amsterdam UMC/Documenten/GitHub/Immunorad-live-meta-analysis")
