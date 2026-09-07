@@ -460,7 +460,7 @@ forest_with_two_bottom_pools <- function(dat, tumor_order, tumor_pretty,
     addpoly(m_all, row = bottom_all, atransf = exp, cex = 0.9, mlab = "", height = h_all)
     
     text(x_left, bottom_all,
-         paste0("Pooled HR (all studies; n=", nrow(d), ")"),
+         paste0("Pooled HR (all trials reporting ", gsub("HR_", "", hr_col), "; n=", nrow(d), ")"),
          pos = 4, font = 2, cex = 0.9)
     
     text(pval_x, bottom_all - 0.9,
