@@ -9238,5 +9238,17 @@
     "source": "PubMed",
     "url": "https://pubmed.ncbi.nlm.nih.gov/42648750/",
     "date_added": "2026-08-31"
+  },
+  {
+    "pmid": "42823088",
+    "doi": "10.1158/0008-5472.CAN-12-1187",
+    "title": "Toripalimab consolidation after chemoradiotherapy in limited-stage small cell lung cancer: a phase II, randomized controlled study (GASTO-1052A).",
+    "authors": "Zhang P, Wang D, He W, Zhang H, Dong Y, Situ Y et al.",
+    "journal": "Journal for immunotherapy of cancer",
+    "pubdate": "2026",
+    "abstract": "Immune-checkpoint inhibitors (ICIs) plus chemotherapy have demonstrated survival benefits in extensive-stage small cell lung cancer (SCLC). The integration of immunotherapy with concurrent chemoradiotherapy (CCRT) may improve survival outcomes in limited-stage SCLC (LS-SCLC). This phase II randomized controlled study was designed to evaluate the efficacy and safety of toripalimab consolidation versus observation in patients with LS-SCLC after CCRT. We conducted this phase II, randomized controlled trial in patients with LS-SCLC who had completed CCRT. Eligible patients were randomized 1:1 to either toripalimab consolidation (240 mg every 3 weeks for up to 6 months) or observation. Randomization was stratified according to disease stage (I or II vs III) and the receipt of prophylactic cranial irradiation (PCI) (yes vs no). The primary endpoint was progression-free survival (PFS). The secondary endpoints included overall survival (OS), objective response rate and toxicities. Between June 30, 2020, and May 31, 2024, a total of 98 patients were randomized to receive either toripalimab consolidation (n=49) or observation (n=49) after CCRT. The trial was prematurely terminated on May 31, 2024. Objective responses were observed in 14 of 23 patients (60.9%) in the toripalimab group and in 9 of 24 patients (37.5%) in the observation group. The median PFS was not reached in the toripalimab group, compared with 14.1 months (95% CI 2.8 to 25.4) in the observation group (HR, 0.55; 95% CI 0.31 to 0.96). The median OS was not reached with toripalimab, compared with 30.3 months (95% CI 20.4 to 40.2) with observation (HR, 0.39; 95% CI 0.19 to 0.80). Treatment-related toxicities were generally mild. Adverse events led to discontinuation of study drug in 6 of 48 patients (12.5%) in the toripalimab group. Grade 3 pneumonitis or radiation pneumonitis occurred in two patient (4.2%) in the toripalimab group and one patient (2.0%) in the observation group. No grade 4 or 5 adverse events occurred in either group. Subgroup analyses of PFS and OS favored toripalimab over observation across all predefined subgroups, including age, sex, Eastern Cooperative Oncology Group performance status, smoking status, disease stage, response to CCRT and the receipt of PCI. Consolidative toripalimab showed promising signals of improved PFS and OS with a manageable safety profile in patients with LS-SCLC. These findings warrant confirmation in larger, adequately powered randomized trials.",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42823088/",
+    "date_added": "2026-10-05"
   }
 ]
