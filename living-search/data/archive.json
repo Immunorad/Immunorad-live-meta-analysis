@@ -9250,5 +9250,17 @@
     "source": "PubMed",
     "url": "https://pubmed.ncbi.nlm.nih.gov/42823088/",
     "date_added": "2026-10-05"
+  },
+  {
+    "pmid": "42869886",
+    "doi": "10.1016/j.cell.2025.03.018",
+    "title": "Camrelizumab plus chemotherapy as induction therapy followed by concurrent chemoradiotherapy and camrelizumab consolidation in limited-stage small cell lung cancer: a randomized phase II trial.",
+    "authors": "Liu D, Yang L, Hu M, Du H, Chen Y, Zhu Y et al.",
+    "journal": "Signal transduction and targeted therapy",
+    "pubdate": "2026",
+    "abstract": "Definitive chemoradiotherapy followed by immunotherapy consolidation is the current standard of care for limited-stage small cell lung cancer (LS-SCLC). We conducted a randomized phase II trial (ChiCTR2000032275) to evaluate a camrelizumab-based induction-consolidation strategy in previously untreated patients with LS-SCLC. Patients were randomly assigned (1:1) to receive induction camrelizumab plus etoposide-platinum followed by concurrent chemoradiotherapy (CRT) and camrelizumab consolidation (camrelizumab group), or induction chemotherapy followed by concurrent CRT alone (cCRT group). The primary endpoint was the 1‑year progression‑free survival (PFS) rate. Secondary endpoints included objective response rate (ORR), PFS, overall survival (OS), and safety. Between November 2020 and April 2024, 41 patients were enrolled. At a median follow‑up of 32.1 months (interquartile range [IQR]: 26.4-38.7), ORR was 100% in the camrelizumab group and 83.3% in the cCRT group. The 1‑year PFS rates were 65.5% with camrelizumab versus 47.4% with cCRT (P = 0.029). Median PFS was 24.0 months versus 11.8 months, and median OS was not reached versus 23.9 months (P = 0.042). Exploratory biomarker analyses indicated that patients with lower baseline systemic inflammatory indices, including neutrophil-to-lymphocyte ratio <2.8 and platelet-to-lymphocyte ratio <207.0, and those with a decline in lactate dehydrogenase at week 12 after CRT, derived greater benefit from camrelizumab. The OS benefit was also more evident in patients with Ki-67 ≤80%. Toxicities in the camrelizumab group were manageable, with a low incidence of severe immune-related adverse events (4.8%), and radiation pneumonitis rates were comparable between groups. Taken together, induction camrelizumab combined with chemotherapy, followed by CRT and camrelizumab consolidation, significantly improved survival outcomes in LS-SCLC, with a manageable safety profile, warranting further validation for this aggressive malignancy.",
+    "source": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42869886/",
+    "date_added": "2026-10-19"
   }
 ]
