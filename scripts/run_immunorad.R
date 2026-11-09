@@ -328,26 +328,57 @@ forest_with_two_bottom_pools <- function(dat, tumor_order, tumor_pretty,
   if (k >= 0.95) k <- 0.95
   ylim_lower <- (anchor_y - k * ylim_upper) / (1 - k)
   
-  # Text column position etc.
-  textpos_left <- xlim[1] + study_col_shift * diff(xlim)
-  textpos_vec  <- c(textpos_left, xlim[2])
+  # ---------------------------------------------------------------------------
+  # LAYOUT: size the label column to the longest label so that (a) no CI line or
+  # arrow ever runs through text and (b) there is minimal white space between the
+  # labels and the start of the plot (x-axis). `xlim` / `study_col_shift` passed
+  # by the caller are therefore overridden; only `at` (axis ticks) is used.
+  # ---------------------------------------------------------------------------
   psize_vec <- box_psize(d$N_total)
-  
-  forest(
-    x = d$yi, sei = d$sei,
-    slab = d$study_label,
-    xlim = xlim,
-    at = at,
-    atransf = exp,
-    xlab = "",
-    rows = d$row_pos,
-    refline = log(1),
-    ylim = c(ylim_lower, ylim_upper),
-    cex = 0.9,
-    header = c("Study", "Hazard ratio [95% CI]"),
-    textpos = textpos_vec,
-    psize = psize_vec
-  )
+  draw_forest <- function(xlim, textpos_vec) {
+    forest(
+      x = d$yi, sei = d$sei,
+      slab = d$study_label,
+      xlim = xlim,
+      at = at,
+      atransf = exp,
+      xlab = "",
+      rows = d$row_pos,
+      refline = log(1),
+      ylim = c(ylim_lower, ylim_upper),
+      cex = 0.9,
+      header = c("Study", "Hazard ratio [95% CI]"),
+      textpos = textpos_vec,
+      psize = psize_vec
+    )
+  }
+
+  # Pass 1 (scratch device, identical size/margins): measure label width and the
+  # REAL plot region in inches (forest() adjusts the margins itself, so par("pin")
+  # alone is not reliable).
+  dsz <- dev.size("in"); prev_dev <- dev.cur()
+  pdf(NULL, width = dsz[1], height = dsz[2])
+  par(mar = c(6.6, 2.7, 3.2, 4.3)); par(xpd = NA)
+  suppressWarnings(draw_forest(c(-5, 2), c(-4.9, 2)))
+  usr_in  <- grconvertX(par("usr")[1:2], "user", "inches")
+  L0      <- usr_in[1]                           # left edge of plot region (inches from page edge)
+  P_eff   <- usr_in[2] - usr_in[1]               # width of plot region (inches)
+  w_lab   <- max(strwidth(d$study_label, units = "inches", cex = 0.9), na.rm = TRUE)   # study rows only
+  w_ann   <- strwidth("0.00 [0.00, 0.00]", units = "inches", cex = 0.9)
+  dev.off(); if (prev_dev > 1) dev.set(prev_dev)
+
+  start_in <- 0.15                 # inches from page edge to start of labels
+  gap_l    <- 0.25                 # inches: clear gap between longest study label and axis start
+  right_r  <- w_ann + 0.50         # inches: room for the HR [95% CI] column
+  at_min   <- min(at); at_max <- max(at)
+  A_in     <- start_in + w_lab + gap_l - L0              # inches between plot-region edge and axis start
+  s_in     <- (P_eff - A_in - right_r) / (at_max - at_min)   # inches per log-unit
+  xlim     <- c(at_min - A_in / s_in, at_max + right_r / s_in)
+
+  # Pass 2: the real plot
+  textpos_left <- xlim[1] + (start_in - L0) / s_in
+  textpos_vec  <- c(textpos_left, xlim[2])
+  draw_forest(xlim, textpos_vec)
   
   x_left  <- textpos_left
   x_right <- par("usr")[2]
@@ -381,7 +412,7 @@ forest_with_two_bottom_pools <- function(dat, tumor_order, tumor_pretty,
   x_right2 <- par("usr")[2]
   y_title  <- par("usr")[4] - 1.00
   text(
-    x = (x_left2 + x_right2) / 2,
+    x = (min(at) + max(at)) / 2,     # centred over the plotted axis, not the whole page
     y = y_title,
     labels = main_title,
     font = 2,
@@ -507,15 +538,13 @@ forest_with_two_bottom_pools <- function(dat, tumor_order, tumor_pretty,
   x_left3  <- usr[1]
   x_right3 <- usr[2]
   y_favor  <- usr[3] + favors_offset_user
-  favor_shift <- 0.17 * (x_right3 - x_left3)
-  
-  text(
-    x = (x_left3 + x_right3) / 2 + favor_shift,
-    y = y_favor,
-    labels = expression(bold("Favors RIT") ~ "\u2190" ~ "   HR   " ~ "\u2192" ~ bold("Favors RT")),
-    cex = 0.95,
-    xpd = TRUE
-  )
+  favor_lab <- expression(bold("Favors RIT") ~ "\u2190" ~ "   HR   " ~ "\u2192" ~ bold("Favors RT"))
+  fx <- log(1)                                  # centred on the reference line (HR = 1)
+  fw <- strwidth(favor_lab, cex = 0.95); fh <- strheight(favor_lab, cex = 0.95)
+  # white backing so the dotted reference line does not run through the caption
+  rect(fx - fw / 2 - 0.05, y_favor - fh * 0.9, fx + fw / 2 + 0.05, y_favor + fh * 0.9,
+       col = "white", border = NA, xpd = TRUE)
+  text(x = fx, y = y_favor, labels = favor_lab, cex = 0.95, xpd = TRUE)
   
   invisible(list(
     n_studies = nrow(d),
@@ -578,7 +607,7 @@ make_single_tumor_forest <- function(dat, tumor_name, hr_col, lo_col, hi_col,
   pdf_path <- file.path(fig_dir, paste0(out_prefix, "_", slug, ".pdf"))
   png_path <- file.path(fig_dir, paste0(out_prefix, "_", slug, ".png"))
   
-  pdf(pdf_path, width = 8.5, height = h)
+  pdf(pdf_path, width = 9, height = h)
   res <- forest_with_two_bottom_pools(
     dat = dsub_raw,
     tumor_order = c(tumor_name),
@@ -632,7 +661,7 @@ if (nrow(tmp_os) > 0) {
     n_groups  = length(tumor_order[tumor_order %in% as.character(unique(tmp_os$Tumortype_clean))])
   )
   
-  pdf(file.path(fig_dir, "Forest_OS_by_tumor_type.pdf"), width = 8.5, height = h_os)
+  pdf(file.path(fig_dir, "Forest_OS_by_tumor_type.pdf"), width = 10, height = h_os)
   res_os <- forest_with_two_bottom_pools(
     dat = dat, tumor_order = tumor_order, tumor_pretty = tumor_pretty,
     hr_col = "HR_OS", lo_col = "Lower_CI_OS", hi_col = "Upper_CI_OS",
@@ -666,7 +695,7 @@ if (nrow(tmp_pfs) > 0) {
     n_groups  = length(tumor_order[tumor_order %in% as.character(unique(tmp_pfs$Tumortype_clean))])
   )
   
-  pdf(file.path(fig_dir, "Forest_PFS_by_tumor_type.pdf"), width = 8.5, height = h_pfs)
+  pdf(file.path(fig_dir, "Forest_PFS_by_tumor_type.pdf"), width = 10, height = h_pfs)
   res_pfs <- forest_with_two_bottom_pools(
     dat = dat, tumor_order = tumor_order, tumor_pretty = tumor_pretty,
     hr_col = "HR_PFS", lo_col = "lower_CI_PFS", hi_col = "upper_CI_PFS",
@@ -701,7 +730,7 @@ if (nrow(tmp_efs) > 0) {
   )
   h_efs <- max(7, h_efs * 0.25)
   
-  pdf(file.path(fig_dir, "Forest_EFS_by_tumor_type.pdf"), width = 8.5, height = h_efs)
+  pdf(file.path(fig_dir, "Forest_EFS_by_tumor_type.pdf"), width = 10, height = h_efs)
   res_efs <- forest_with_two_bottom_pools(
     dat = dat, tumor_order = tumor_order, tumor_pretty = tumor_pretty,
     hr_col = "HR_EFS", lo_col = "Lower_CI_EFS", hi_col = "Upper_CI_EFS",
